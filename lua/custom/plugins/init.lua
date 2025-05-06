@@ -7,35 +7,103 @@ return {
     {
         "nvim-lua/plenary.nvim",
         config = function()
-            -- ESC to enter insert mode
-            vim.keymap.set('n', '<Esc>', 'i', { desc = 'Enter insert mode' })
+            -- ...existing code...
+        end
+    },
 
-            -- Option+q to quit
-            vim.keymap.set('n', '<M-q>', ':q<CR>', { desc = 'Quit', silent = true })
+    -- Dracula theme with transparent background
+    {
+        "Mofiqul/dracula.nvim",
+        priority = 1000, -- Make sure to load this before all the other start plugins
+        config = function()
+            -- Configure the Dracula theme with transparent background
+            require("dracula").setup({
+                transparent_bg = true,
+                -- Enable the theme
+                colors = {
+                    bg = "NONE",
+                },
+                -- Override specific highlight groups
+                overrides = {
+                    -- Add any specific highlight overrides here
+                    Normal = { bg = "NONE" },
+                    NormalFloat = { bg = "NONE" },
+                }
+            })
 
-            -- Option+Shift+q to force quit
-            vim.keymap.set('n', '<M-Q>', ':q!<CR>', { desc = 'Force quit', silent = true })
+            -- Set the colorscheme
+            vim.cmd [[colorscheme dracula]]
+        end,
+    },
 
-            -- Option+w to save
-            vim.keymap.set('n', '<M-w>', ':w<CR>', { desc = 'Save', silent = true })
+    -- Mode indicator with custom text
+    {
+        "nvim-lualine/lualine.nvim",
+        dependencies = { 'nvim-tree/nvim-web-devicons' },
+        config = function()
+            -- Configure mode indicator with custom icons and text
+            local custom_mode = {
+                normal = "𝔫 ᕕ( ᐛ )ᕗ ",
+                insert = "𝔦 ᕙ(´ཀ`)ᕗ ",
+                visual = "𝔳 (⌐■_■)⌐ ",
+                select = "𝔰 ヽ(⇀.↼)ノ",
+                command = "𝔠 (╯°□°)╯ ",
+                replace = "𝔯 (ﾉ≧∇≦)ﾉ ",
+                terminal = "𝔱 (>^.^<)",
+                inactive = "𝔦 (╯︵╰,)",
+            }
 
-            -- Option+Shift+w to force save
-            vim.keymap.set('n', '<M-W>', ':w!<CR>', { desc = 'Force save', silent = true })
 
-            -- Option+e to save and quit
-            vim.keymap.set('n', '<M-e>', ':wq<CR>', { desc = 'Save and quit', silent = true })
 
-            -- Option+Shift+e to force save and quit
-            vim.keymap.set('n', '<M-E>', ':wq!<CR>', { desc = 'Force save and quit', silent = true })
-
-            -- Option+r to reload buffer
-            vim.keymap.set('n', '<M-r>', ':e<CR>', { desc = 'Reload current buffer', silent = true })
-
-            -- Option+Shift+r to reload config
-            vim.keymap.set('n', '<M-R>', function()
-                dofile(vim.env.MYVIMRC)
-                vim.notify('Config reloaded', vim.log.levels.INFO)
-            end, { desc = 'Reload config', silent = true })
+            require('lualine').setup {
+                options = {
+                    icons_enabled = true,
+                    theme = 'dracula',
+                    component_separators = { left = '', right = '' },
+                    section_separators = { left = '', right = '' },
+                    disabled_filetypes = {},
+                    always_divide_middle = true,
+                    globalstatus = true,
+                },
+                sections = {
+                    lualine_a = {
+                        {
+                            'mode',
+                            fmt = function(str)
+                                local mode_map = {
+                                    ['NORMAL'] = custom_mode.normal,
+                                    ['INSERT'] = custom_mode.insert,
+                                    ['VISUAL'] = custom_mode.visual,
+                                    ['V-LINE'] = custom_mode.visual,
+                                    ['V-BLOCK'] = custom_mode.visual,
+                                    ['SELECT'] = custom_mode.select,
+                                    ['S-LINE'] = custom_mode.select,
+                                    ['S-BLOCK'] = custom_mode.select,
+                                    ['COMMAND'] = custom_mode.command,
+                                    ['REPLACE'] = custom_mode.replace,
+                                    ['TERMINAL'] = custom_mode.terminal,
+                                }
+                                return mode_map[str] or custom_mode.inactive
+                            end
+                        }
+                    },
+                    lualine_b = { 'branch', 'diff', 'diagnostics' },
+                    lualine_c = { 'filename' },
+                    lualine_x = { 'encoding', 'fileformat', 'filetype' },
+                    lualine_y = { 'progress' },
+                    lualine_z = { 'location' }
+                },
+                inactive_sections = {
+                    lualine_a = {},
+                    lualine_b = {},
+                    lualine_c = { 'filename' },
+                    lualine_x = { 'location' },
+                    lualine_y = {},
+                    lualine_z = {}
+                },
+                tabline = {},
+                extensions = {}
+            }
         end
     }
 }
