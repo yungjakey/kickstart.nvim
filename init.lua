@@ -133,6 +133,9 @@ vim.o.scrolloff = 10
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
+-- Set 'whichwrap' to allow left/right keys to wrap around lines
+vim.opt.whichwrap:append '<,>'
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -640,7 +643,7 @@ require('lazy').setup({
       local servers = {
         -- clangd = {},
         -- gopls = {},
-        -- pyright = {},
+        pyright = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -657,6 +660,11 @@ require('lazy').setup({
           -- capabilities = {},
           settings = {
             Lua = {
+              diagnostics = {
+                globals = {
+                  'vim',
+                },
+              },
               completion = {
                 callSnippet = 'Replace',
               },
