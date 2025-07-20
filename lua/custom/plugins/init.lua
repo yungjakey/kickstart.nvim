@@ -53,8 +53,6 @@ return {
                 inactive = "𝔦 (╯︵╰,)",
             }
 
-
-
             require('lualine').setup {
                 options = {
                     icons_enabled = true,
@@ -104,6 +102,28 @@ return {
                 tabline = {},
                 extensions = {}
             }
+        end
+    },
+
+    -- Custom keymaps for quitting and buffer management
+    {
+        "folke/which-key.nvim",
+        config = function()
+            -- Normal mappings (no shift)
+            -- Ctrl+q to quit
+            vim.keymap.set('n', '<C-q>', ':q<CR>', { noremap = true, silent = true, desc = "Quit" })
+            -- Ctrl+w to close buffer
+            vim.keymap.set('n', '<C-w>', ':bd<CR>', { noremap = true, silent = true, desc = "Close buffer" })
+            -- Ctrl+e to save and quit
+            vim.keymap.set('n', '<C-e>', ':wq<CR>', { noremap = true, silent = true, desc = "Save and quit" })
+
+            -- Force versions with Shift
+            -- Ctrl+Shift+q to force quit
+            vim.keymap.set('n', '<C-S-q>', ':q!<CR>', { noremap = true, silent = true, desc = "Force quit" })
+            -- Ctrl+Shift+w to force close buffer
+            vim.keymap.set('n', '<C-S-w>', ':bd!<CR>', { noremap = true, silent = true, desc = "Force close buffer" })
+            -- Ctrl+Shift+e to force save and quit
+            vim.keymap.set('n', '<C-S-e>', ':wq!<CR>', { noremap = true, silent = true, desc = "Force save and quit" })
         end
     }
 }
