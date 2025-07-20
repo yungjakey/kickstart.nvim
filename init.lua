@@ -136,6 +136,9 @@ vim.o.confirm = true
 -- Set 'whichwrap' to allow left/right keys to wrap around lines
 vim.opt.whichwrap:append '<,>'
 
+-- Set 'whichwrap' to allow left/right keys to wrap around lines
+vim.opt.whichwrap:append '<,>'
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
