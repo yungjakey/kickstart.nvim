@@ -538,7 +538,9 @@ require('lazy').setup({
             local servers = {
                 -- clangd = {},
                 gopls = {},
-                ruff = {},
+                ruff = {
+
+                },
                 bashls = {
                     settings = {
                         filetypes = { 'sh', 'zsh', 'env' },
@@ -592,6 +594,15 @@ require('lazy').setup({
             local ensure_installed = vim.tbl_keys(servers or {})
             vim.list_extend(ensure_installed, {
                 'stylua', -- Used to format Lua code
+                'ruff',
+                -- 'gofmt',
+                'goimports',
+                'yamlfix',
+                'yamlfmt',
+                'markdownlint',
+                -- 'markdownfmt',
+                'shfmt',
+                'shellcheck',
             })
             require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -644,9 +655,12 @@ require('lazy').setup({
             end,
             formatters_by_ft = {
                 lua = { 'stylua' },
-                -- Conform can also run multiple formatters sequentially
-                -- python = { "isort", "black" },
-                --
+                python = { "ruff_fix", "ruff_organize_imports", "ruff_format" },
+                bash = { 'shellcheck', 'shfmt' },
+                markdown = { 'markdownlint', 'markdownformat' },
+                yaml = { 'yamlfix', 'prettierd', },
+                json = { 'fixjson', 'prettierd' },
+
                 -- You can use 'stop_after_first' to run the first available formatter from the list
                 -- javascript = { "prettierd", "prettier", stop_after_first = true },
             },
