@@ -43,7 +43,7 @@ return {
                 command = "𝔠 (╯°□°)╯ ",
                 replace = "𝔯 (>^.^<)",
                 terminal = "𝔱 (ﾉ≧∇≦)ﾉ ",
-                inactive = "𝔦 (╯︵╰,)",
+                inactive = "𝔵 (╯︵╰,)",
             }
 
             require('lualine').setup {
