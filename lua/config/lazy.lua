@@ -336,6 +336,7 @@ require('lazy').setup({
       library = {
         -- Load luvit types when the `vim.uv` word is found
         { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
+        "LazyVim",
       },
     },
   },
@@ -571,26 +572,23 @@ require('lazy').setup({
 
         -- Shell/Bash
         bashls = {
-          filetypes = { "sh", "bash", "zsh", "env" },
+          filetypes = { 'sh', 'bash', 'zsh', 'env' },
           settings = {
             bashIde = {
-              globPattern = "**/*@(.sh|.inc|.bash|.command)",
+              globPattern = '**/*@(.sh|.inc|.bash|.command)',
             },
           },
         },
 
-
-
         lua_ls = {
           settings = {
             Lua = {
-              runtime = { version = "LuaJIT" },
-              diagnostics = { globals = { "vim" } },
+              runtime = { version = 'LuaJIT' },
+              -- diagnostics = { globals = { "vim" } },
               workspace = {
-                library = vim.api.nvim_get_runtime_file("", true),
                 checkThirdParty = false,
+                library = { vim.env.VIMRUNTIME }
               },
-              telemetry = { enable = false },
               completion = {
                 callSnippet = 'Replace',
               },
@@ -598,13 +596,11 @@ require('lazy').setup({
           },
         },
 
-
         -- JSON
         jsonls = {
           settings = {
             json = {
               schemas = require('schemastore').json.schemas(),
-
               validate = { enable = true },
               format = { enable = false }, -- Let prettierd handle formatting
             },
@@ -620,7 +616,7 @@ require('lazy').setup({
                 -- this plugin and its advanced options like `ignore`.
                 enable = false,
                 -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
-                url = "",
+                url = '',
               },
               schemas = require('schemastore').yaml.schemas(),
               validate = true,
@@ -635,7 +631,7 @@ require('lazy').setup({
         marksman = {},
 
         -- tofu
-        ["tofu-ls"] = {
+        ['tofu-ls'] = {
           filetypes = { 'tf', 'hcl', 'tfvars' },
           settings = {
             tofu = {
@@ -645,17 +641,14 @@ require('lazy').setup({
           },
         },
 
-
         -- Docker
         dockerls = {},
-
 
         -- disabled
         pyright = {
           mason = false,
           autostart = false,
         },
-
       }
 
       -- Ensure the servers and tools above are installed
@@ -674,39 +667,39 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         -- Formatters & Fixers
-        "ruff", -- handles ruff_fix, ruff_format, and ruff linting
-        "goimports",
-        "shfmt",
-        "stylua",
-        "prettierd",
-        "fixjson",
-        "yamlfix",
-        "sqlfmt",
+        'ruff', -- handles ruff_fix, ruff_format, and ruff linting
+        'goimports',
+        'shfmt',
+        'stylua',
+        'prettierd',
+        'fixjson',
+        'yamlfix',
+        'sqlfmt',
 
         -- Linters
-        "golangci-lint",
-        "shellcheck",
-        "luacheck",
-        "jsonlint",
-        "yamllint",
-        "markdownlint",
-        "tflint",
-        "hadolint",
-        "actionlint",
-        "sqlfluff",
+        'golangci-lint',
+        'shellcheck',
+        'luacheck',
+        'jsonlint',
+        'yamllint',
+        'markdownlint',
+        'tflint',
+        'hadolint',
+        'actionlint',
+        'sqlfluff',
 
         -- lsp
-        "gopls",
-        "bashls",
-        "lua_ls",
-        "jsonls",
-        "yamlls",
-        "marksman",
-        "tofu-ls",
-        "dockerls",
-        "gh-actions-language-server",
-        "sqls",
-        "jinja-lsp",
+        'gopls',
+        'bashls',
+        'lua_ls',
+        'jsonls',
+        'yamlls',
+        'marksman',
+        'tofu-ls',
+        'dockerls',
+        'gh-actions-language-server',
+        'sqls',
+        'jinja-lsp',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -759,31 +752,31 @@ require('lazy').setup({
       end,
       formatters_by_ft = {
         -- Config formats
-        json = { "fixjson", "prettierd" },
-        jsonc = { "fixjson", "prettierd" },
-        yaml = { "yamlfix", "prettierd" },
-        yml = { "yamlfix", "prettierd" },
+        json = { 'fixjson', 'prettierd' },
+        jsonc = { 'fixjson', 'prettierd' },
+        yaml = { 'yamlfix', 'prettierd' },
+        yml = { 'yamlfix', 'prettierd' },
 
         -- Programming languages
-        python = { "ruff_fix", "ruff_format" },
-        go = { "goimports" }, -- includes gofmt functionality
-        bash = { "shfmt" },
-        sh = { "shfmt" },
-        zsh = { "shfmt" },
-        lua = { "stylua" },
-        sql = { "sqlfmt", }, -- sqfluff can also format
-        j2 = { "djlint", "prettier" },
-        jinja = { "djlint", "prettier" },
-        jinja2 = { "djlint", "prettier" },
+        python = { 'ruff_fix', 'ruff_format' },
+        go = { 'goimports' }, -- includes gofmt functionality
+        bash = { 'shfmt' },
+        sh = { 'shfmt' },
+        zsh = { 'shfmt' },
+        lua = { 'stylua' },
+        sql = { 'sqlfmt' }, -- sqfluff can also format
+        j2 = { 'djlint', 'prettier' },
+        jinja = { 'djlint', 'prettier' },
+        jinja2 = { 'djlint', 'prettier' },
 
         -- Infrastructure
-        terraform = { "tofu_fmt" },
-        hcl = { "tofu_fmt" },
-        tfvars = { "tofu_fmt" },
-        dockerfile = { "dockerfmt" },
+        terraform = { 'tofu_fmt' },
+        hcl = { 'tofu_fmt' },
+        tfvars = { 'tofu_fmt' },
+        dockerfile = { 'dockerfmt' },
 
         -- Documentation
-        markdown = { "prettierd" },
+        markdown = { 'prettierd' },
       },
     },
   },
@@ -886,7 +879,6 @@ require('lazy').setup({
       signature = { enabled = true },
     },
   },
-
 
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },

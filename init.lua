@@ -23,6 +23,11 @@ If you experience any errors while trying to install kickstart, run `:checkhealt
 
 I hope you enjoy your Neovim journey,
 - TJ
+
+-- [[ Setting options ]]
+-- See `:help vim.o`
+-- NOTE: You can change these options as you wish!
+--  For more options, you can see `:help option-list`
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
@@ -32,11 +37,6 @@ vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
-
--- [[ Setting options ]]
--- See `:help vim.o`
--- NOTE: You can change these options as you wish!
---  For more options, you can see `:help option-list`
 
 -- Make line numbers default
 vim.o.number = true
