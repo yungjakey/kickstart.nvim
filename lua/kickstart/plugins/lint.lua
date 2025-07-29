@@ -6,7 +6,29 @@ return {
     config = function()
       local lint = require 'lint'
       lint.linters_by_ft = {
-        markdown = { 'markdownlint' },
+        -- Programming languages
+        python = { "ruff" },
+        go = { "golangcilint" },
+        bash = { "shellcheck" },
+        sh = { "shellcheck" },
+        zsh = { "shellcheck" },
+        lua = { "luacheck" },
+        sql = { "sqlfluff" },
+        j2 = { "sqlfluff", "djlint" },
+        jinja = { "sqlfluff", "djlint" },
+        jinja2 = { "sqlfluff", "djlint" },
+
+        -- Config formats
+        yaml = { "yamllint", "actionlint" },
+        yml = { "yamllint", "actionlint" },
+        json = { "jsonlint" },
+        jsonc = { "jsonlint" },
+        markdown = { "markdownlint" },
+
+        -- Infrastructure
+        terraform = { "tflint" },
+        hcl = { "tflint" },
+        dockerfile = { "hadolint" },
       }
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,

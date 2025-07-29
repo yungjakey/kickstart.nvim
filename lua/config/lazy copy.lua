@@ -13,88 +13,6 @@ end
 local rtp = vim.opt.rtp
 rtp:prepend(lazypath)
 
--- Set <space> as the leader key
--- See `:help mapleader`
---  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
-
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
-
--- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = true
-
--- [[ Setting options ]]
--- See `:help vim.o`
--- NOTE: You can change these options as you wish!
---  For more options, you can see `:help option-list`
-
--- Make line numbers default
-vim.o.number = true
--- You can also add relative line numbers, to help with jumping.
---  Experiment for yourself to see if you like it!
-vim.o.relativenumber = true
-
--- Enable mouse mode, can be useful for resizing splits for example!
-vim.o.mouse = 'a'
-
--- Don't show the mode, since it's already in the status line
-vim.o.showmode = false
-
--- Sync clipboard between OS and Neovim.
---  Schedule the setting after `UiEnter` because it can increase startup-time.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
-vim.schedule(function()
-  vim.o.clipboard = 'unnamedplus'
-end)
-
--- Enable break indent
-vim.o.breakindent = true
-
--- Save undo history
-vim.o.undofile = true
-
--- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
-vim.o.ignorecase = true
-vim.o.smartcase = true
-
--- Keep signcolumn on by default
-vim.o.signcolumn = 'yes'
-
--- Decrease update time
-vim.o.updatetime = 250
-
--- Decrease mapped sequence wait time
-vim.o.timeoutlen = 300
-
--- Configure how new splits should be opened
-vim.o.splitright = true
-vim.o.splitbelow = true
-
--- Sets how neovim will display certain whitespace characters in the editor.
---  See `:help 'list'`
---  and `:help 'listchars'`
---
---  Notice listchars is set using `vim.opt` instead of `vim.o`.
---  It is very similar to `vim.o` but offers an interface for conveniently interacting with tables.
---   See `:help lua-options`
---   and `:help lua-options-guide`
-vim.o.list = true
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
-
--- Preview substitutions live, as you type!
-vim.o.inccommand = 'split'
-
--- Show which line your cursor is on
-vim.o.cursorline = true
-
--- Minimal number of screen lines to keep above and below the cursor.
-vim.o.scrolloff = 10
-
--- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
--- instead raise a dialog asking if you wish to save the current file(s)
--- See `:help 'confirm'`
-vim.o.confirm = true
 
 -- [[ Configure and install plugins ]]
 --
@@ -536,7 +454,7 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        -- clangd = {},
+        -- Go
         gopls = {
           settings = {
             gopls = {
@@ -554,24 +472,9 @@ require('lazy').setup({
         -- Python
         ruff = {},
 
-        -- sql
-        sqls = {},
-
-        -- jinja
-        jinja_lsp = {
-          filetypes = { 'j2', 'jinja', 'jinja2' },
-          settings = {
-            jinja = {
-              autoFormat = true,
-              autoComplete = true,
-              autoCompleteOnTagClose = true,
-            },
-          },
-        },
-
         -- Shell/Bash
         bashls = {
-          filetypes = { "sh", "bash", "zsh", "env" },
+          filetypes = { "sh", "bash", "zsh" },
           settings = {
             bashIde = {
               globPattern = "**/*@(.sh|.inc|.bash|.command)",
@@ -579,7 +482,59 @@ require('lazy').setup({
           },
         },
 
+        -- Terraform
+        terraformls = {
+          settings = {
+            terraform = {
+              experimentalFeatures = {
+                validateOnSave = true,
+              },
+            },
+          },
+        },
 
+        -- JSON
+        jsonls = {
+          settings = {
+            json = {
+              schemas = require("schemastore").json.schemas(),
+              validate = { enable = true },
+              format = { enable = false }, -- Let prettierd handle formatting
+            },
+          },
+        },
+
+        -- YAML
+        yamlls = {
+          settings = {
+            yaml = {
+              schemaStore = {
+                enable = false,
+                url = "",
+              },
+              schemas = require("schemastore").yaml.schemas({
+                extra = {
+                  {
+                    description = "GitHub Actions",
+                    fileMatch = { ".github/workflows/*.yml", ".github/workflows/*.yaml" },
+                    name = "GitHub Workflow",
+                    url = "https://json.schemastore.org/github-workflow.json",
+                  },
+                },
+              }),
+              validate = true,
+              completion = true,
+              hover = true,
+              format = { enable = false }, -- Let prettierd handle formatting
+            },
+          },
+        },
+
+        -- Markdown
+        marksman = {},
+
+        -- Docker
+        dockerls = {},
 
         lua_ls = {
           settings = {
@@ -598,64 +553,11 @@ require('lazy').setup({
           },
         },
 
-
-        -- JSON
-        jsonls = {
-          settings = {
-            json = {
-              schemas = require('schemastore').json.schemas(),
-
-              validate = { enable = true },
-              format = { enable = false }, -- Let prettierd handle formatting
-            },
-          },
-        },
-
-        -- YAML
-        yamlls = {
-          settings = {
-            yaml = {
-              schemaStore = {
-                -- You must disable built-in schemaStore support if you want to use
-                -- this plugin and its advanced options like `ignore`.
-                enable = false,
-                -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
-                url = "",
-              },
-              schemas = require('schemastore').yaml.schemas(),
-              validate = true,
-              completion = true,
-              hover = true,
-              format = { enable = false }, -- Let prettierd handle formatting
-            },
-          },
-        },
-
-        -- Markdown
-        marksman = {},
-
-        -- tofu
-        ["tofu-ls"] = {
-          filetypes = { 'tf', 'hcl', 'tfvars' },
-          settings = {
-            tofu = {
-              format = { enable = true },
-              validate = { enable = true },
-            },
-          },
-        },
-
-
-        -- Docker
-        dockerls = {},
-
-
         -- disabled
         pyright = {
           mason = false,
           autostart = false,
         },
-
       }
 
       -- Ensure the servers and tools above are installed
@@ -674,39 +576,35 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         -- Formatters & Fixers
-        "ruff", -- handles ruff_fix, ruff_format, and ruff linting
-        "goimports",
-        "shfmt",
-        "stylua",
         "prettierd",
         "fixjson",
         "yamlfix",
-        "sqlfmt",
+        "ruff", -- handles ruff_fix, ruff_format, and ruff linting
+        "goimports",
+        "shfmt",
+        "dockfmt",
+        "stylua",
 
         -- Linters
+        "yamllint",
+        "actionlint",
+        "jsonlint",
         "golangci-lint",
         "shellcheck",
-        "luacheck",
-        "jsonlint",
-        "yamllint",
-        "markdownlint",
         "tflint",
         "hadolint",
-        "actionlint",
-        "sqlfluff",
+        "markdownlint",
+        "luacheck",
 
         -- lsp
         "gopls",
         "bashls",
-        "lua_ls",
+        "terraformls",
         "jsonls",
         "yamlls",
         "marksman",
-        "tofu-ls",
         "dockerls",
-        "gh-actions-language-server",
-        "sqls",
-        "jinja-lsp",
+        "lua_ls",
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -771,16 +669,10 @@ require('lazy').setup({
         sh = { "shfmt" },
         zsh = { "shfmt" },
         lua = { "stylua" },
-        sql = { "sqlfmt", }, -- sqfluff can also format
-        j2 = { "djlint", "prettier" },
-        jinja = { "djlint", "prettier" },
-        jinja2 = { "djlint", "prettier" },
 
         -- Infrastructure
         terraform = { "tofu_fmt" },
-        hcl = { "tofu_fmt" },
-        tfvars = { "tofu_fmt" },
-        dockerfile = { "dockerfmt" },
+        dockerfile = { "dockfmt" },
 
         -- Documentation
         markdown = { "prettierd" },
@@ -887,7 +779,6 @@ require('lazy').setup({
     },
   },
 
-
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
@@ -934,21 +825,7 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = {
-        'bash',
-        'c',
-        'go',
-        'python',
-        'diff',
-        'html',
-        'lua',
-        'luadoc',
-        'markdown',
-        'markdown_inline',
-        'query',
-        'vim',
-        'vimdoc',
-      },
+      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
