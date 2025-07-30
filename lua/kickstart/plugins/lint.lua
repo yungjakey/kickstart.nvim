@@ -7,20 +7,19 @@ return {
       local lint = require 'lint'
       lint.linters_by_ft = {
         -- Programming languages
-        python = { "ruff" },
+        -- python = { "ruff" },
         go = { "golangcilint" },
         bash = { "shellcheck" },
         sh = { "shellcheck" },
         zsh = { "shellcheck" },
-        lua = { "luacheck" },
         sql = { "sqlfluff" },
         j2 = { "sqlfluff", "djlint" },
         jinja = { "sqlfluff", "djlint" },
         jinja2 = { "sqlfluff", "djlint" },
 
         -- Config formats
-        yaml = { "yamllint", "actionlint" },
-        yml = { "yamllint", "actionlint" },
+        yaml = { "yamllint", },
+        yml = { "yamllint", },
         json = { "jsonlint" },
         jsonc = { "jsonlint" },
         markdown = { "markdownlint" },
@@ -63,9 +62,12 @@ return {
       -- lint.linters_by_ft['terraform'] = nil
       -- lint.linters_by_ft['text'] = nil
 
+      lint.linters.yamllint.args = { '--config', vim.fn.expand('~/.config/nvim/lua/kickstart/plugins/yamllint.yaml') }
+
       -- Create autocommand which carries out the actual linting
       -- on the specified events.
       local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
+
       vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
         group = lint_augroup,
         callback = function()
@@ -74,6 +76,18 @@ return {
           -- describe the hovered symbol using Markdown.
           if vim.bo.modifiable then
             lint.try_lint()
+          end
+        end,
+      })
+
+      vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
+        group = lint_augroup,
+        callback = function()
+          local bufname = vim.api.nvim_buf_get_name(0)
+
+          -- Simple absolute path check
+          if bufname:match("/%.github/workflows/.*%.ya?ml$") then
+            lint.try_lint("actionlint")
           end
         end,
       })

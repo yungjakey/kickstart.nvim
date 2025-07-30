@@ -106,10 +106,15 @@ vim.o.scrolloff = 10
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
+vim.opt.whichwrap:append '<'
+vim.opt.whichwrap:append '>'
+vim.opt.whichwrap:append '['
+vim.opt.whichwrap:append ']'
+
 -- [[ Load plugins ]]
-require("config.keymaps")
-require("config.autocmds")
-require("config.lazy")
+require 'config.lazy'
+require 'custom.options.autocmds'
+require 'custom.options.keymaps'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

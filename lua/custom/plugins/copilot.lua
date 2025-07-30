@@ -1,16 +1,20 @@
 return {
-  {
-    'github/copilot.vim',
-    lazy = false,
-    config = function() -- Mapping tab is already used in NvChad
-      vim.keymap.set('i', '<C-CR>', 'copilot#Accept("\\<CR>")', {
-        expr = true,
-        replace_keycodes = false
-      })
-      vim.keymap.set('i', '<C-Right>', '<Plug>(copilot-accept-word)')
-      vim.keymap.set('i', '<C-Down>', '<Plug>(copilot-accept-line)')
-      vim.g.copilot_no_tab_map = true    -- Disable tab mapping
-      vim.g.copilot_assume_mapped = true -- Assume that the mapping is already done
-    end,
+  'zbirenbaum/copilot.lua',
+  event = 'InsertEnter',
+  opts = {
+    panel = { enabled = false },
+    suggestion = {
+      enabled = false,
+      -- auto_trigger = true,
+      -- hide_during_completion = vim.g.ai_cmp,
+      -- keymap = {
+      --   dismiss = '<M-S-CR>',
+      --   accept = '<M-CR>',
+      --   accept_line = '<M-k>',
+      --   accept_word = '<M-l>',
+      --   next = '<M-tab>',
+      --   prev = '<M-S-tab>',
+      -- },
+    },
   },
 }

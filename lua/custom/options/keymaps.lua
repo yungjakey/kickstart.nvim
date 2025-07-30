@@ -1,5 +1,6 @@
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
+vim.keymap.set('i', '<M-BS>', '<C-w>')
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
@@ -35,7 +36,24 @@ vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower win
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
--- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
--- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
--- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
--- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
+vim.keymap.set('n', '<C-S-h>', '<C-w>H', { desc = 'Move window to the left' })
+vim.keymap.set('n', '<C-S-l>', '<C-w>L', { desc = 'Move window to the right' })
+vim.keymap.set('n', '<C-S-j>', '<C-w>J', { desc = 'Move window to the lower' })
+vim.keymap.set('n', '<C-S-k>', '<C-w>K', { desc = 'Move window to the upper' })
+
+-- [[ Oil.nvim ]]
+vim.keymap.set('n', '-', '<CMD>Oil --preview --float<CR>', { desc = 'Open parent directory' })
+
+-- [[ Wezterm Send ]]
+local wezterm_send = require 'wezterm-send'
+vim.keymap.set('n', '<C-CR>', function()
+  vim.cmd('WeztermSendJson ' .. vim.fn.shellescape(vim.fn.getline '.'))
+end, { desc = 'Send current line to Wezterm' })
+
+vim.keymap.set('x', '<C-CR>', function()
+  local selected_lines = vim.fn.getregion(vim.fn.getpos 'v', vim.fn.getpos '.')
+
+  for i, line in ipairs(selected_lines) do
+    vim.cmd('WeztermExecJson ' .. line .. '\n')
+  end
+end, { desc = 'Send selection to Wezterm as JSON' })
