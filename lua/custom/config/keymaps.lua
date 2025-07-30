@@ -40,20 +40,3 @@ vim.keymap.set('n', '<C-S-h>', '<C-w>H', { desc = 'Move window to the left' })
 vim.keymap.set('n', '<C-S-l>', '<C-w>L', { desc = 'Move window to the right' })
 vim.keymap.set('n', '<C-S-j>', '<C-w>J', { desc = 'Move window to the lower' })
 vim.keymap.set('n', '<C-S-k>', '<C-w>K', { desc = 'Move window to the upper' })
-
--- [[ Oil.nvim ]]
-vim.keymap.set('n', '-', '<CMD>Oil --preview --float<CR>', { desc = 'Open parent directory' })
-
--- [[ Wezterm Send ]]
-local wezterm_send = require 'wezterm-send'
-vim.keymap.set('n', '<C-CR>', function()
-  vim.cmd('WeztermSendJson ' .. vim.fn.shellescape(vim.fn.getline '.'))
-end, { desc = 'Send current line to Wezterm' })
-
-vim.keymap.set('x', '<C-CR>', function()
-  local selected_lines = vim.fn.getregion(vim.fn.getpos 'v', vim.fn.getpos '.')
-
-  for i, line in ipairs(selected_lines) do
-    vim.cmd('WeztermExecJson ' .. line .. '\n')
-  end
-end, { desc = 'Send selection to Wezterm as JSON' })

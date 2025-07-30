@@ -113,8 +113,8 @@ vim.opt.whichwrap:append ']'
 
 -- [[ Load plugins ]]
 require 'config.lazy'
-require 'custom.options.autocmds'
-require 'custom.options.keymaps'
+require 'custom.config.autocmds'
+require 'custom.config.keymaps'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
