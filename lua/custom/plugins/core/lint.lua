@@ -8,26 +8,26 @@ return {
       lint.linters_by_ft = {
         -- Programming languages
         -- python = { "ruff" },
-        go = { "golangcilint" },
-        bash = { "shellcheck" },
-        sh = { "shellcheck" },
-        zsh = { "shellcheck" },
-        sql = { "sqlfluff" },
-        j2 = { "sqlfluff", "djlint" },
-        jinja = { "sqlfluff", "djlint" },
-        jinja2 = { "sqlfluff", "djlint" },
+        go = { 'golangcilint' },
+        bash = { 'shellcheck' },
+        sh = { 'shellcheck' },
+        zsh = { 'shellcheck' },
+        sql = { 'sqlfluff' },
+        j2 = { 'sqlfluff', 'djlint' },
+        jinja = { 'sqlfluff', 'djlint' },
+        jinja2 = { 'sqlfluff', 'djlint' },
 
         -- Config formats
-        yaml = { "yamllint", },
-        yml = { "yamllint", },
-        json = { "jsonlint" },
-        jsonc = { "jsonlint" },
-        markdown = { "markdownlint" },
+        yaml = { 'yamllint' },
+        yml = { 'yamllint' },
+        json = { 'jsonlint' },
+        jsonc = { 'jsonlint' },
+        markdown = { 'markdownlint' },
 
         -- Infrastructure
-        terraform = { "tflint" },
-        hcl = { "tflint" },
-        dockerfile = { "hadolint" },
+        terraform = { 'tflint' },
+        hcl = { 'tflint' },
+        dockerfile = { 'hadolint' },
       }
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
@@ -62,7 +62,7 @@ return {
       -- lint.linters_by_ft['terraform'] = nil
       -- lint.linters_by_ft['text'] = nil
 
-      lint.linters.yamllint.args = { '--config', vim.fn.expand('~/.config/nvim/lua/kickstart/plugins/yamllint.yaml') }
+      lint.linters.yamllint.args = { '--config', vim.fn.expand '~/.config/nvim/lua/kickstart/plugins/yamllint.yaml' }
 
       -- Create autocommand which carries out the actual linting
       -- on the specified events.
@@ -80,14 +80,14 @@ return {
         end,
       })
 
-      vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
+      vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
         group = lint_augroup,
         callback = function()
           local bufname = vim.api.nvim_buf_get_name(0)
 
           -- Simple absolute path check
-          if bufname:match("/%.github/workflows/.*%.ya?ml$") then
-            lint.try_lint("actionlint")
+          if bufname:match '/%.github/workflows/.*%.ya?ml$' then
+            lint.try_lint 'actionlint'
           end
         end,
       })

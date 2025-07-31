@@ -1,6 +1,6 @@
 return {
   {
-    "b0o/schemastore.nvim",
+    'b0o/schemastore.nvim',
   },
   {
     'folke/lazydev.nvim',
@@ -18,7 +18,7 @@ return {
       { 'mason-org/mason.nvim', opts = {} },
       'mason-org/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
-      { 'j-hui/fidget.nvim',    opts = {} },
+      { 'j-hui/fidget.nvim', opts = {} },
       'saghen/blink.cmp',
     },
     config = function()
