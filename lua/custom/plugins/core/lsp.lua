@@ -5,9 +5,13 @@ return {
   {
     'folke/lazydev.nvim',
     ft = 'lua',
+    dependencies = {
+      { 'justinsgithub/wezterm-types', lazy = true },
+    },
     opts = {
       library = {
         { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
+        { path = 'wezterm-types', modes = { 'wezterm' } },
         'LazyVim',
       },
     },
@@ -30,7 +34,7 @@ return {
       -- and language tooling communicate in a standardized fashion.
       --
       -- In general, you have a "server" which is some tool built to understand a particular
-      -- language (such as `gopls`, `lua_ls`, `rust_analyzer`, etc.). These Language Servers
+      -- language (such as ``, `lua-language-server`, `rust_analyzer`, etc.). These Language Servers
       -- (sometimes called LSP servers, but that's kind of like ATM Machine) are standalone
       -- processes that communicate with some "client" - in this case, Neovim!
       --
@@ -201,7 +205,7 @@ return {
       --  - filetypes (table): Override the default list of associated filetypes for the server
       --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
       --  - settings (table): Override the default settings passed when initializing the server.
-      --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+      --        For example, to see the options for `lua-language-server`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         -- clangd = {},
         gopls = {
@@ -241,7 +245,7 @@ return {
         },
 
         -- Shell/Bash
-        bashls = {
+        ['bash-language-server'] = {
           filetypes = { 'sh', 'bash', 'zsh', 'env' },
           settings = {
             bashIde = {
@@ -250,25 +254,33 @@ return {
           },
         },
 
-        lua_ls = {
+        ['lua-language-server'] = {
           settings = {
             Lua = {
               runtime = { version = 'LuaJIT' },
               -- diagnostics = { globals = { "vim" } },
               workspace = {
-                checkThirdParty = false,
+                -- checkThirdParty = false,
                 library = { vim.env.VIMRUNTIME },
               },
               completion = {
                 callSnippet = 'Replace',
+                trigger = { show_on_backspace = true },
               },
             },
           },
         },
 
         -- JSON
-        jsonls = {
+        ['json-lsp'] = {
           settings = {
+            schemaStore = {
+              -- You must disable built-in schemaStore support if you want to use
+              -- this plugin and its advanced options like `ignore`.
+              enable = false,
+              -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+              url = '',
+            },
             json = {
               schemas = require('schemastore').json.schemas(),
               validate = { enable = true },
@@ -278,7 +290,7 @@ return {
         },
 
         -- YAML
-        yamlls = {
+        ['yaml-language-server'] = {
           settings = {
             yaml = {
               schemaStore = {
@@ -288,7 +300,13 @@ return {
                 -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
                 url = '',
               },
-              schemas = require('schemastore').yaml.schemas(),
+              -- schemas = require('schemastore').yaml.schemas(),
+              schemas = {
+                ['https://raw.githubusercontent.com/docker/compose/master/compose/config/compose_spec.json'] = 'docker-compose*.{yml,yaml}',
+                ['https://json.schemastore.org/kustomization.json'] = 'kustomization.{yml,yaml}',
+                ['https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/application_v1alpha1.json'] = 'argocd-application.yaml',
+                ['https://www.schemastore.org/databricks-asset-bundles.json'] = '{databricks, db}.*.{yml,yaml}',
+              },
               validate = true,
               completion = true,
               hover = true,
@@ -312,7 +330,7 @@ return {
         },
 
         -- Docker
-        dockerls = {},
+        ['dockerfile-language-server'] = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -354,13 +372,13 @@ return {
 
         -- lsp
         'gopls',
-        'bashls',
-        'lua_ls',
-        'jsonls',
-        'yamlls',
+        'bash-language-server',
+        'lua-language-server',
+        'json-lsp',
+        'yaml-language-server',
         'marksman',
         'tofu-ls',
-        'dockerls',
+        'dockerfile-language-server',
         'gh-actions-language-server',
         'sqls',
         'jinja-lsp',

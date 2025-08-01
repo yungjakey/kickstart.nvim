@@ -66,8 +66,11 @@ return {
         },
       },
       completion = {
-        documentation = { auto_show = false, auto_show_delay_ms = 500 },
+        trigger = { show_on_backspace = true },
+        ghost_text = { enabled = true },
+        documentation = { auto_show = true, auto_show_delay_ms = 500 },
         menu = { max_height = 15, direction_priority = { 'n', 's' }, scrollbar = false },
+        -- signature = { enabled = true },
       },
       sources = {
         default = { 'lazydev', 'lsp', 'path', 'snippets', 'copilot' },

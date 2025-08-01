@@ -38,6 +38,9 @@ vim.g.maplocalleader = ' '
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
+-- Ignore copilot
+vim.g.root_lsp_ignore = { 'copilot' }
+
 -- Make line numbers default
 vim.o.number = true
 -- You can also add relative line numbers, to help with jumping.
@@ -123,18 +126,21 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   end
 end
 
----@type vim.Option
-local rtp = vim.opt.rtp
-rtp:prepend(lazypath)
-
-vim.g.root_lsp_ignore = { 'copilot' }
-
--- [[ Configure and install plugins ]]
-require('lazy').setup({
+vim.opt.rtp:prepend(lazypath)
+-- plugins
+local plugins = {
   { import = 'custom.plugins.core' },
   { import = 'custom.plugins.tools' },
   { import = 'custom.plugins.utils' },
-}, {
+}
+local opts = {
+  performance = {
+    rtp = {
+      disabled_plugins = {
+        'gzip',
+      }
+    }
+  },
   ui = {
     icons = vim.g.have_nerd_font and {} or {
       cmd = '⌘',
@@ -152,6 +158,8 @@ require('lazy').setup({
       lazy = '💤 ',
     },
   },
-})
-require 'custom.config.autocmds'
+}
+-- [[ Configure and install plugins ]]
+require('lazy').setup(plugins, opts)
+require('custom.config.autocmds')
 require 'custom.config.keymaps'

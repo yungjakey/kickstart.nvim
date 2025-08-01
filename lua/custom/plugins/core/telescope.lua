@@ -12,17 +12,19 @@ return {
     },
     { 'nvim-telescope/telescope-ui-select.nvim' },
     { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+    { 'debugloop/telescope-undo.nvim' },
   },
   config = function()
     require('telescope').setup {
       extensions = {
         ['ui-select'] = { require('telescope.themes').get_dropdown() },
         ['undo'] = {
-          side_by_side = true,
+          -- side_by_side = true,
           layout_strategy = 'horizontal',
           layout_config = {
-            preview_width = 0.65,
+            preview_width = 0.85,
           },
+          entry_format = '($STAT) $TIME',
         },
       },
     }

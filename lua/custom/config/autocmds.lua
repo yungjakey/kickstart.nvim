@@ -48,18 +48,18 @@ vim.api.nvim_create_autocmd('BufEnter', {
 
     -- Check if buffer meets criteria for the 'q' keymap
     if
-      not vim.bo[ctx.buf].modifiable or vim.bo[ctx.buf].buftype == 'nofile'
-      -- Add more conditions here if needed:
-      -- or vim.bo[ctx.buf].buftype == 'help'
-      -- or vim.bo[ctx.buf].buftype == 'quickfix'
-      -- or vim.tbl_contains({'help', 'qf', 'man'}, vim.bo[ctx.buf].filetype)
+        not vim.bo[ctx.buf].modifiable or vim.bo[ctx.buf].buftype == 'nofile'
+    -- Add more conditions here if needed:
+    -- or vim.bo[ctx.buf].buftype == 'help'
+    -- or vim.bo[ctx.buf].buftype == 'quickfix'
+    -- or vim.tbl_contains({'help', 'qf', 'man'}, vim.bo[ctx.buf].filetype)
     then
       -- Create buffer-local keymap for 'q'
       vim.keymap.set('n', 'q', function()
         if #a.nvim_list_wins() > 1 then
           a.nvim_win_close(0, false) -- Close the window
         else
-          vim.cmd.normal 'ga' -- Show character info under cursor if last window
+          vim.cmd.normal 'ga'        -- Show character info under cursor if last window
         end
       end, {
         buffer = ctx.buf,
