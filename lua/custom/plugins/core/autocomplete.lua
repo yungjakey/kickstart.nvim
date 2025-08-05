@@ -73,13 +73,14 @@ return {
         -- signature = { enabled = true },
       },
       sources = {
-        default = { 'lazydev', 'lsp', 'path', 'snippets', 'copilot' },
+        default = { 'lazydev', 'lsp', 'path', 'snippets', 'buffer', 'copilot' },
         providers = {
           lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
+          dadbod = { module = "vim_dadbod_completion.blink", score_offset = 85 },
           copilot = {
             name = 'copilot',
             module = 'blink-cmp-copilot',
-            score_offset = 100,
+            score_offset = 90,
             async = true,
             transform_items = function(_, items)
               local CompletionItemKind = require('blink.cmp.types').CompletionItemKind
@@ -96,6 +97,14 @@ return {
       snippets = { preset = 'luasnip' },
       fuzzy = { implementation = 'lua' },
       signature = { enabled = true },
+      per_filetype = {
+        sql = { 'snippets', 'dadbod', 'buffer' },
+        j2sql = { 'snippets', 'dadbod', 'buffer' },
+      },
+
     },
+    config = function(_, opts)
+      require('blink.cmp').setup(opts)
+    end,
   },
 }

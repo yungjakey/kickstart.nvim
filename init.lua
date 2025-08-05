@@ -163,3 +163,4 @@ local opts = {
 require('lazy').setup(plugins, opts)
 require('custom.config.autocmds')
 require 'custom.config.keymaps'
+require 'custom.config.filetypes'

@@ -13,9 +13,7 @@ return {
         sh = { 'shellcheck' },
         zsh = { 'shellcheck' },
         sql = { 'sqlfluff' },
-        j2 = { 'sqlfluff', 'djlint' },
-        jinja = { 'sqlfluff', 'djlint' },
-        jinja2 = { 'sqlfluff', 'djlint' },
+        j2sql = { 'djlint', 'sqlfluff' },
 
         -- Config formats
         yaml = { 'yamllint' },

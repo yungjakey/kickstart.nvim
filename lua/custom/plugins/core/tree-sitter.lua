@@ -26,6 +26,8 @@ return {
       'query',
       'vim',
       'vimdoc',
+      'sql',
+      'jinja',
     },
     auto_install = true,
     highlight = { enable = true, additional_vim_regex_highlighting = { 'ruby' } },
@@ -49,10 +51,10 @@ return {
       move = {
         enable = true,
         set_jumps = true,
-        goto_next_start = { [']s'] = '@parameter.outer', [']a'] = '@assignment.outer', [']]'] = '@class.outer', [']f'] = '@function.outer' },
+        goto_next_start = { [']p'] = '@parameter.outer', [']a'] = '@assignment.outer', [']]'] = '@class.outer', [']f'] = '@function.outer' },
         goto_next_end = { [']S'] = '@parameter.outer', [']A'] = '@assignment.outer', [']['] = '@class.outer', [']F'] = '@function.outer' },
         goto_previous_start = { ['[s'] = '@parameter.outer', ['[a'] = '@assignment.outer', ['[['] = '@class.outer', ['[f'] = '@function.outer' },
-        goto_previous_end = { ['[S'] = '@parameter.outer', ['[A'] = '@assignment.outer', ['[]'] = '@class.outer', ['[F'] = '@function.outer' },
+        goto_previous_end = { ['[P'] = '@parameter.outer', ['[A'] = '@assignment.outer', ['[]'] = '@class.outer', ['[F'] = '@function.outer' },
       },
       swap = {
         enable = true,
@@ -67,5 +69,6 @@ return {
     local ts_repeat_move = require 'nvim-treesitter.textobjects.repeatable_move'
     vim.keymap.set({ 'n', 'x', 'o' }, ';', ts_repeat_move.repeat_last_move_next, { noremap = true, silent = true })
     vim.keymap.set({ 'n', 'x', 'o' }, ',', ts_repeat_move.repeat_last_move_previous, { noremap = true, silent = true })
+    vim.treesitter.language.register('sql', 'j2sql')
   end,
 }

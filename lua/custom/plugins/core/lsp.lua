@@ -11,7 +11,7 @@ return {
     opts = {
       library = {
         { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
-        { path = 'wezterm-types', modes = { 'wezterm' } },
+        { path = 'wezterm-types',      modes = { 'wezterm' } },
         'LazyVim',
       },
     },
@@ -22,7 +22,7 @@ return {
       { 'mason-org/mason.nvim', opts = {} },
       'mason-org/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
-      { 'j-hui/fidget.nvim', opts = {} },
+      { 'j-hui/fidget.nvim',    opts = {} },
       'saghen/blink.cmp',
     },
     config = function()
@@ -230,11 +230,13 @@ return {
         },
 
         -- sql
-        sqls = {},
+        sqls = {
+          filetypes = { 'sql', 'j2sql' },
+        },
 
         -- jinja
         jinja_lsp = {
-          filetypes = { 'j2', 'jinja', 'jinja2' },
+          filetypes = { 'j2', 'jinja2', 'j2sql' },
           settings = {
             jinja = {
               autoFormat = true,
@@ -243,14 +245,18 @@ return {
             },
           },
         },
-
         -- Shell/Bash
         ['bash-language-server'] = {
           filetypes = { 'sh', 'bash', 'zsh', 'env' },
           settings = {
             bashIde = {
-              globPattern = '**/*@(.sh|.inc|.bash|.command)',
+              globPattern = vim.env.GLOB_PATTERN or '*@(.sh|.inc|.bash|.zsh|.command|.env)',
             },
+            -- filetypes = { 'bash', 'sh', 'zsh', '.env' },
+            root_dir = function(fname)
+              return vim.fs.dirname(vim.fs.find('.git', { path = fname, upward = true })[1])
+            end,
+            single_file_support = true,
           },
         },
 
@@ -302,9 +308,11 @@ return {
               },
               -- schemas = require('schemastore').yaml.schemas(),
               schemas = {
-                ['https://raw.githubusercontent.com/docker/compose/master/compose/config/compose_spec.json'] = 'docker-compose*.{yml,yaml}',
+                ['https://raw.githubusercontent.com/docker/compose/master/compose/config/compose_spec.json'] =
+                'docker-compose*.{yml,yaml}',
                 ['https://json.schemastore.org/kustomization.json'] = 'kustomization.{yml,yaml}',
-                ['https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/application_v1alpha1.json'] = 'argocd-application.yaml',
+                ['https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/application_v1alpha1.json'] =
+                'argocd-application.yaml',
                 ['https://www.schemastore.org/databricks-asset-bundles.json'] = '{databricks, db}.*.{yml,yaml}',
               },
               validate = true,
@@ -357,6 +365,7 @@ return {
         'fixjson',
         'yamlfix',
         'sqlfmt',
+        'djlint',
 
         -- Linters
         'golangci-lint',
