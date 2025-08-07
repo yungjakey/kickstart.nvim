@@ -18,3 +18,7 @@ vim.filetype.add({
         end,
     },
 })
+
+vim.filetype.add({
+    pattern = { [".*-query-[^%.]*"] = "sql" },
+})

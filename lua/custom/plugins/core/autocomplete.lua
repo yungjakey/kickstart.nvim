@@ -11,7 +11,7 @@ return {
   },
   {
     'giuxtaposition/blink-cmp-copilot',
-    after = 'copilot.lua',
+    dependencies = 'copilot.lua',
   },
   { -- Autocompletion
     'saghen/blink.cmp',
@@ -37,7 +37,7 @@ return {
       appearance = {
         nerd_font_variant = 'mono',
         kind_icons = {
-          Copilot = '',
+          copilot = '',
           Text = '󰉿',
           Method = '󰊕',
           Function = '󰊕',
@@ -63,6 +63,7 @@ return {
           Event = '󱐋',
           Operator = '󰪚',
           TypeParameter = '󰬛',
+          dadbod = '󰆼',
         },
       },
       completion = {
@@ -73,14 +74,24 @@ return {
         -- signature = { enabled = true },
       },
       sources = {
-        default = { 'lazydev', 'lsp', 'path', 'snippets', 'buffer', 'copilot' },
+        default = { 'lazydev', 'lsp', 'path', 'snippets', 'buffer', 'copilot', },
+        per_filetype = {
+          j2sql = { 'vim-dadbod-completion', 'lsp', 'buffer', 'copilot' },
+          sql = { 'vim-dadbod-completion', 'lsp', 'buffer', 'copilot' },
+          mysql = { 'vim-dadbod-completion', 'lsp', 'buffer', 'copilot' },
+          plsql = { 'vim-dadbod-completion', 'lsp', 'buffer', 'copilot' },
+        },
         providers = {
-          lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
-          dadbod = { module = "vim_dadbod_completion.blink", score_offset = 85 },
+          lazydev = { name = 'lazydev', module = 'lazydev.integrations.blink', score_offset = 100 },
+          ['vim-dadbod-completion'] = {
+            name = 'Dadbod',
+            module = 'vim_dadbod_completion.blink',
+            score_offset = 110,
+          },
           copilot = {
             name = 'copilot',
             module = 'blink-cmp-copilot',
-            score_offset = 90,
+            score_offset = 100,
             async = true,
             transform_items = function(_, items)
               local CompletionItemKind = require('blink.cmp.types').CompletionItemKind
@@ -97,11 +108,6 @@ return {
       snippets = { preset = 'luasnip' },
       fuzzy = { implementation = 'lua' },
       signature = { enabled = true },
-      per_filetype = {
-        sql = { 'snippets', 'dadbod', 'buffer' },
-        j2sql = { 'snippets', 'dadbod', 'buffer' },
-      },
-
     },
     config = function(_, opts)
       require('blink.cmp').setup(opts)

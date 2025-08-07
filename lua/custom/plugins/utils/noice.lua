@@ -36,10 +36,13 @@ return {
     require('notify').setup {
       merge_duplicates = true,
       background_colour = '#000000',
-      --   stages = 'fade_in_slide_out',
+      stages = 'fade_in_slide_out',
       --   timeout = 3000,
       --   max_height = 10,
       --   max_width = 50,
+      vim.keymap.set('n', '<leader>nd', function()
+        require('notify').dismiss { silent = true, pending = true }
+      end, { desc = 'Dismiss Notifications' }),
     }
   end,
 }

@@ -189,8 +189,14 @@ return {
         --   end,
         -- },
       }
-      vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', {})
-
+      vim.api.nvim_set_keymap('n', '<leader>xs',
+        '<cmd>lua vim.diagnostic.open_float()<CR>', {
+          desc = 'Show diagnostics for current line',
+        })
+      vim.api.nvim_set_keymap('n', '<leader>xy',
+        '<cmd>lua vim.fn.setreg("+", vim.diagnostic.get(0, {lnum = vim.fn.line(".") - 1})[1].message)<CR>', {
+          desc = 'Yank diagnostic message'
+        })
       -- LSP servers and clients are able to communicate to each other what features they support.
       --  By default, Neovim doesn't support everything that is in the LSP specification.
       --  When you add blink.cmp, luasnip, etc. Neovim now has *more* capabilities.

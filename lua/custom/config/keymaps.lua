@@ -8,6 +8,14 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 -- delete word backwards
 vim.keymap.set('i', '<M-BS>', '<C-w>')
 
+vim.keymap.set('n', '<leader>p' , vim.api.nvim_buf_get_name(0), { desc = 'Get filepath' }) -- select all
+
+--_select all
+vim.keymap.set('n', '<C-a>', 'gg<S-v>G', { desc = 'Select all' })
+
+-- opencode
+vim.keymap.set('n', '<leader>oc', ':vsplit | term opencode<CR>', { desc = 'Open code in right split (40%)' })
+
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 

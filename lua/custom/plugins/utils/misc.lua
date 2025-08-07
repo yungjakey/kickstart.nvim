@@ -47,4 +47,5 @@ return {
       require('render-markdown').setup(opts)
     end,
   },
+  { 'echasnovski/mini.surround', version = false },
 }
