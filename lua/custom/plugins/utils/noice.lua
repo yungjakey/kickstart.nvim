@@ -1,48 +1,58 @@
 return {
-  'folke/noice.nvim',
-  event = 'VeryLazy',
-  opts = {
-    lsp = {
-      -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-      override = {
-        ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
-        ['vim.lsp.util.stylize_markdown'] = true,
-        ['cmp.entry.get_documentation'] = true, -- requires hrsh7th/nvim-cmp
+  -- nvim-notify: configure first
+  {
+    'rcarriga/nvim-notify',
+    event = 'VeryLazy',
+    init = function()
+      -- Make notify the default ASAP so Noice and others use it
+      vim.notify = require 'notify'
+    end,
+    opts = function()
+      local bg
+      local ok, hl = pcall(vim.api.nvim_get_hl, 0, { name = 'Normal', link = false })
+      if ok and hl and hl.bg then
+        bg = string.format('#%06x', hl.bg)
+      end
+      return {
+        background_colour = bg or '#1e1e1e',
+        stages = 'fade_in_slide_out',
+        merge_duplicates = true,
+        -- q/Q inside notification popups:
+        on_open = function(win)
+          local buf = vim.api.nvim_win_get_buf(win)
+          local map = function(lhs, rhs, desc)
+            vim.keymap.set('n', lhs, rhs, { buffer = buf, silent = true, nowait = true, desc = desc })
+          end
+          map('q', '<cmd>close<cr>', 'Dismiss notification')
+          map('Q', function()
+            require('notify').dismiss { silent = true, pending = true }
+          end, 'Dismiss ALL notifications')
+        end,
+      }
+    end,
+  },
+  {
+    'folke/noice.nvim',
+    event = 'VeryLazy',
+    dependencies = { 'rcarriga/nvim-notify', 'MunifTanjim/nui.nvim' },
+    opts = {
+      lsp = {
+        override = {
+          ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
+          ['vim.lsp.util.stylize_markdown'] = true,
+          ['cmp.entry.get_documentation'] = true,
+        },
+      },
+      presets = {
+        bottom_search = true,
+        command_palette = true,
+        long_message_to_split = true,
+        inc_rename = false,
+        lsp_doc_border = false,
       },
     },
-    -- you can enable a preset for easier configuration
-    presets = {
-      bottom_search = true, -- use a classic bottom cmdline for search
-      command_palette = true, -- position the cmdline and popupmenu together
-      long_message_to_split = true, -- long messages will be sent to a split
-      inc_rename = false, -- enables an input dialog for inc-rename.nvim
-      lsp_doc_border = false, -- add a border to hover docs and signature help
-    },
+    config = function(_, opts)
+      require('noice').setup(opts)
+    end,
   },
-  dependencies = {
-    -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-    'MunifTanjim/nui.nvim',
-    -- OPTIONAL:
-    --   `nvim-notify` is only needed, if you want to use the notification view.
-    --   If not available, we use `mini` as the fallback
-    'rcarriga/nvim-notify',
-  },
-  config = function(_, opts)
-    require('noice').setup(opts)
-
-    -- optional: setup the notify plugin
-    -- if you want to use `nvim-notify` as the notification view
-    -- you can also use `mini` as a fallback
-    require('notify').setup {
-      merge_duplicates = true,
-      background_colour = '#000000',
-      stages = 'fade_in_slide_out',
-      --   timeout = 3000,
-      --   max_height = 10,
-      --   max_width = 50,
-      vim.keymap.set('n', '<leader>nd', function()
-        require('notify').dismiss { silent = true, pending = true }
-      end, { desc = 'Dismiss Notifications' }),
-    }
-  end,
 }

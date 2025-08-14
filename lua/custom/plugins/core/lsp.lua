@@ -189,13 +189,12 @@ return {
         --   end,
         -- },
       }
-      vim.api.nvim_set_keymap('n', '<leader>xs',
-        '<cmd>lua vim.diagnostic.open_float()<CR>', {
-          desc = 'Show diagnostics for current line',
-        })
+      vim.api.nvim_set_keymap('n', '<leader>xs', '<cmd>lua vim.diagnostic.open_float()<CR>', {
+        desc = 'Show diagnostics for current line',
+      })
       vim.api.nvim_set_keymap('n', '<leader>xy',
         '<cmd>lua vim.fn.setreg("+", vim.diagnostic.get(0, {lnum = vim.fn.line(".") - 1})[1].message)<CR>', {
-          desc = 'Yank diagnostic message'
+          desc = 'Yank diagnostic message',
         })
       -- LSP servers and clients are able to communicate to each other what features they support.
       --  By default, Neovim doesn't support everything that is in the LSP specification.
@@ -329,8 +328,10 @@ return {
           },
         },
 
+        taplo = { filetypes = { 'toml' }, },
+
         -- Markdown
-        marksman = {},
+        marksman = { filetypes = { 'md' } },
 
         -- tofu
         ['tofu-ls'] = {
@@ -379,6 +380,7 @@ return {
         'luacheck',
         'jsonlint',
         'yamllint',
+        'taplo',
         'markdownlint',
         'tflint',
         'hadolint',

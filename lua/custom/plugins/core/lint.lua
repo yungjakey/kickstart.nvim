@@ -60,8 +60,6 @@ return {
       -- lint.linters_by_ft['terraform'] = nil
       -- lint.linters_by_ft['text'] = nil
 
-      lint.linters.yamllint.args = { '--config', vim.fn.expand '~/.config/nvim/lua/kickstart/plugins/yamllint.yaml' }
-
       -- Create autocommand which carries out the actual linting
       -- on the specified events.
       local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
@@ -84,7 +82,7 @@ return {
           local bufname = vim.api.nvim_buf_get_name(0)
 
           -- Simple absolute path check
-          if bufname:match '/%.github/workflows/.*%.ya?ml$' then
+          if bufname:match '/%.github/.*/.*%.ya?ml$' then
             lint.try_lint 'actionlint'
           end
         end,

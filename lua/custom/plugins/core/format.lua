@@ -28,6 +28,7 @@ return {
         jsonc = { 'fixjson', 'prettierd' },
         yaml = { 'yamlfix', 'prettierd' },
         yml = { 'yamlfix', 'prettierd' },
+        toml = { 'taplo' },
         python = { 'ruff_fix', 'ruff_format' },
         go = { 'goimports' },
         bash = { 'shfmt' },
@@ -50,6 +51,20 @@ return {
           args = { '--reformat', '-' },
           stdin = true,
         },
+        taplo = {
+          command = "taplo",
+          args = {
+            "format",
+            "--option", "allowed_blank_lines=1", -- Allow 1 blank line max
+            "--option", "compact_arrays=true",
+            "--option", "compact_inline_tables=true",
+            "--option", "column_width=120",
+            "--option", "indent_string=\t",
+            "--option", "trailing_newline=true",
+            "-"
+          },
+          stdin = true,
+        }
       },
     },
   },

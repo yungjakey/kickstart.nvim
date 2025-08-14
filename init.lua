@@ -138,8 +138,8 @@ local opts = {
     rtp = {
       disabled_plugins = {
         'gzip',
-      }
-    }
+      },
+    },
   },
   ui = {
     icons = vim.g.have_nerd_font and {} or {
@@ -161,6 +161,10 @@ local opts = {
 }
 -- [[ Configure and install plugins ]]
 require('lazy').setup(plugins, opts)
-require('custom.config.autocmds')
-require 'custom.config.keymaps'
+require 'custom.config.autocmds'
 require 'custom.config.filetypes'
+if vim.g.vscode then
+  require 'custom.config.vscode.keymaps'
+else
+  require 'custom.config.nvim.keymaps'
+end
