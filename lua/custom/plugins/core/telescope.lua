@@ -12,25 +12,40 @@ return {
     },
     { 'nvim-telescope/telescope-ui-select.nvim' },
     { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
-    { 'debugloop/telescope-undo.nvim' },
+    -- load undo extension only in real Neovim (not VSCode)
+    {
+      'debugloop/telescope-undo.nvim',
+      cond = function()
+        return not vim.g.vscode
+      end,
+    },
   },
   config = function()
-    require('telescope').setup {
+    local telescope = require 'telescope'
+    local actions = require 'telescope.actions'
+
+    telescope.setup {
+      defaults = {
+        mappings = {
+          n = { ['q'] = actions.close, ['<esc>'] = actions.close },
+          i = { ['<C-c>'] = actions.close, ['<esc>'] = actions.close },
+        },
+      },
       extensions = {
-        ['ui-select'] = { require('telescope.themes').get_dropdown() },
+        ['ui-select'] = require('telescope.themes').get_dropdown(),
         ['undo'] = {
-          -- side_by_side = true,
           layout_strategy = 'horizontal',
-          layout_config = {
-            preview_width = 0.85,
-          },
+          layout_config = { preview_width = 0.85 },
           entry_format = '($STAT) $TIME',
         },
       },
     }
-    pcall(require('telescope').load_extension, 'fzf')
-    pcall(require('telescope').load_extension, 'ui-select')
-    pcall(require('telescope').load_extension, 'undo')
+
+    pcall(telescope.load_extension, 'fzf')
+    pcall(telescope.load_extension, 'ui-select')
+    if not vim.g.vscode then
+      pcall(telescope.load_extension, 'undo')
+    end
 
     local builtin = require 'telescope.builtin'
     vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
@@ -50,14 +65,29 @@ return {
       })
     end, { desc = '[/] Fuzzily search in current buffer' })
     vim.keymap.set('n', '<leader>s/', function()
-      builtin.live_grep {
-        grep_open_files = true,
-        prompt_title = 'Live Grep in Open Files',
-      }
+      builtin.live_grep { grep_open_files = true, prompt_title = 'Live Grep in Open Files' }
     end, { desc = '[S]earch [/] in Open Files' })
     vim.keymap.set('n', '<leader>sn', function()
       builtin.find_files { cwd = vim.fn.stdpath 'config' }
     end, { desc = '[S]earch [N]eovim files' })
-    vim.keymap.set('n', '<leader>u', '<cmd>Telescope undo<cr>')
+
+    -- Smart undo history:
+    -- - VSCode: open Local History picker (native, reliable)
+    -- - Neovim: open telescope-undo
+    vim.keymap.set('n', '<leader>u', function()
+      if vim.g.vscode then
+        vim.fn.VSCodeNotify 'workbench.action.localHistory.restoreViaPicker'
+      else
+        require('telescope').extensions.undo.undo()
+      end
+    end, { desc = 'Undo history', silent = true })
+
+    vim.keymap.set('n', '<leader>U', function()
+      if vim.g.vscode then
+        vim.fn.VSCodeNotify 'workbench.action.localHistory.restoreViaPicker'
+      else
+        vim.cmd.UndotreeToggle()
+      end
+    end, { desc = 'Undo history (picker/all files)' })
   end,
 }

@@ -164,7 +164,7 @@ require('lazy').setup(plugins, opts)
 require 'custom.config.autocmds'
 require 'custom.config.filetypes'
 if vim.g.vscode then
-  require 'custom.config.vscode.keymaps'
+  require 'custom.config.keymaps.vscode'
 else
-  require 'custom.config.nvim.keymaps'
+  require 'custom.config.keymaps.nvim'
 end

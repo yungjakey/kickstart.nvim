@@ -49,6 +49,13 @@ keymap({ 'n', 'v' }, '<leader>h8', "<cmd>lua require('vscode').action('vscode-ha
 keymap({ 'n', 'v' }, '<leader>h9', "<cmd>lua require('vscode').action('vscode-harpoon.gotoEditor9')<CR>")
 
 -- project manager keymaps
+--
 keymap({ 'n', 'v' }, '<leader>pa', "<cmd>lua require('vscode').action('projectManager.saveProject')<CR>")
 keymap({ 'n', 'v' }, '<leader>po', "<cmd>lua require('vscode').action('projectManager.listProjectsNewWindow')<CR>")
 keymap({ 'n', 'v' }, '<leader>pe', "<cmd>lua require('vscode').action('projectManager.editProjects')<CR>")
+
+local y2f = require 'custom.config.file-yank'
+vim.keymap.set('n', '<leader>yn', function()
+  y2f.new_from_yank { vscode_untitled = true }
+end, { desc = 'New Untitled (VSCode) from last yank' })
+vim.keymap.set('n', '<leader>yN', y2f.new_named_from_yank, { desc = 'New *named* file from last yank' })
