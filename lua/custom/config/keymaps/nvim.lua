@@ -7,25 +7,22 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 -- delete word backwards
 vim.keymap.set('i', '<M-BS>', '<C-w>')
 
-vim.keymap.set('n', '<leader>p', vim.api.nvim_buf_get_name(0), {
+vim.keymap.set('n', '<leader>~', vim.api.nvim_buf_get_name(0), {
     desc = 'Get filepath'
-}) -- select all
+})
 
--- _select all
+-- select all
 vim.keymap.set('n', '<C-a>', 'gg<S-v>G', {
     desc = 'Select all'
 })
 
 -- opencode
 vim.keymap.set('n', '<leader>oc', ':vsplit | term opencode<CR>', {
-    desc = 'Open code in right split (40%)'
+    desc = 'Open code in right split'
 })
-
--- Diagnostic keymaps
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, {
-    desc = 'Open diagnostic [Q]uickfix list'
+vim.keymap.set('n', '<leader>oC', ':hsplit | term opencode<CR>', {
+    desc = 'Open code in right split'
 })
-
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
@@ -35,32 +32,6 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, {
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', {
     desc = 'Exit terminal mode'
 })
-vim.keymap.set('n', '<leader><C-q>', ':q<CR>', {
-    noremap = true,
-    silent = true,
-    desc = 'Quit'
-})
-vim.keymap.set('n', '<leader><C-w>', ':w<CR>', {
-    noremap = true,
-    silent = true,
-    desc = 'Close buffer'
-})
-vim.keymap.set('n', '<leader><C-S-q>', ':q!<CR>', {
-    noremap = true,
-    silent = true,
-    desc = 'Force quit'
-})
-vim.keymap.set('n', '<leader><C-S-w>', ':wq!<CR>', {
-    noremap = true,
-    silent = true,
-    desc = 'Force close buffer'
-})
--- TIP: Disable arrow keys in normal mode
--- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
--- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
--- vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
--- vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
-
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
 --
@@ -91,9 +62,3 @@ vim.keymap.set('n', '<C-S-j>', '<C-w>J', {
 vim.keymap.set('n', '<C-S-k>', '<C-w>K', {
     desc = 'Move window to the upper'
 })
-
--- local functions = require 'custom.config.functions'
--- vim.keymap.set('n', '<leader>yn', function()
---   functions.new_from_yank { vscode_untitled = false }
--- end, { desc = 'New file from last yank' })
--- vim.keymap.set('n', '<leader>yN', functions.new_named_from_yank, { desc = 'New *named* file from last yank' })

@@ -116,7 +116,7 @@ return {
             end
         end
 
-        vim.keymap.set('n', '<leader>u', function()
+        vim.keymap.set('n', '<leader>su', function()
             func()
         end, {
             desc = '[S]earch [U]ndo History',
