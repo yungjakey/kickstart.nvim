@@ -11,7 +11,6 @@ return {
         go = { 'golangcilint' },
         bash = { 'shellcheck' },
         sh = { 'shellcheck' },
-        zsh = { 'shellcheck' },
         sql = { 'sqlfluff' },
         j2sql = { 'djlint', 'sqlfluff' },
 

@@ -28,7 +28,6 @@ return {
       vim.cmd [[colorscheme dracula]]
     end,
   },
-
   -- Mode indicator with custom text
   {
     'nvim-lualine/lualine.nvim',

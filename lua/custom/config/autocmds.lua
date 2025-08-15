@@ -23,7 +23,7 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'sh', 'bash', 'zsh' },
+  pattern = { 'sh', 'bash', },
   callback = function()
     vim.opt_local.expandtab = true
     vim.opt_local.shiftwidth = 4
@@ -60,9 +60,9 @@ vim.api.nvim_create_autocmd('BufEnter', {
     if
       not vim.bo[ctx.buf].modifiable or vim.bo[ctx.buf].buftype == 'nofile'
       -- Add more conditions here if needed:
-      -- or vim.bo[ctx.buf].buftype == 'help'
-      -- or vim.bo[ctx.buf].buftype == 'quickfix'
-      -- or vim.tbl_contains({'help', 'qf', 'man'}, vim.bo[ctx.buf].filetype)
+      or vim.bo[ctx.buf].buftype == 'help'
+      or vim.bo[ctx.buf].buftype == 'quickfix'
+      or vim.tbl_contains({'help', 'qf', 'man'}, vim.bo[ctx.buf].filetype)
     then
       -- Create buffer-local keymap for 'q'
       vim.keymap.set('n', 'q', function()
@@ -77,41 +77,5 @@ vim.api.nvim_create_autocmd('BufEnter', {
         silent = true,
       })
     end
-  end,
-})
-
-vim.api.nvim_create_autocmd('FileType', {
-  group = vim.api.nvim_create_augroup('NotifyNoiceQ', { clear = true }),
-  pattern = { 'notify', 'noice' },
-  callback = function(ev)
-    local opts = { buffer = ev.buf, silent = true, nowait = true, desc = 'Dismiss notification(s)' }
-
-    -- q: dismiss current UI and close window
-    vim.keymap.set('n', 'q', function()
-      pcall(function()
-        require('notify').dismiss { silent = true, pending = false }
-      end)
-      pcall(function()
-        require('noice').cmd 'dismiss'
-      end)
-      pcall(vim.api.nvim_win_close, 0, false)
-    end, opts)
-
-    -- Q: dismiss ALL pending + close any notify/noice windows
-    vim.keymap.set('n', 'Q', function()
-      pcall(function()
-        require('notify').dismiss { silent = true, pending = true }
-      end)
-      pcall(function()
-        require('noice').cmd 'dismiss'
-      end)
-      for _, w in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
-        local b = vim.api.nvim_win_get_buf(w)
-        local ft = vim.bo[b].filetype
-        if ft == 'notify' or ft == 'noice' then
-          pcall(vim.api.nvim_win_close, w, false)
-        end
-      end
-    end, opts)
   end,
 })
