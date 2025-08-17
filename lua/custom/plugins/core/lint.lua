@@ -6,22 +6,23 @@ return {
     config = function()
       local lint = require 'lint'
       lint.linters_by_ft = {
-        -- Programming languages
-        -- python = { "ruff" },
+        -- programming languages
+        -- python = { 'ruff' }, -- handled by lsp
         go = { 'golangcilint' },
         bash = { 'shellcheck' },
         sh = { 'shellcheck' },
         sql = { 'sqlfluff' },
         j2sql = { 'djlint', 'sqlfluff' },
 
-        -- Config formats
+        -- config formats
+        -- toml = { 'taplo' }, -- handled by lsp
         yaml = { 'yamllint' },
         yml = { 'yamllint' },
         json = { 'jsonlint' },
         jsonc = { 'jsonlint' },
         markdown = { 'markdownlint' },
 
-        -- Infrastructure
+        -- infrastructure
         terraform = { 'tflint' },
         hcl = { 'tflint' },
         dockerfile = { 'hadolint' },

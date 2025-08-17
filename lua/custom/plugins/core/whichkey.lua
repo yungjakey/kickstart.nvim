@@ -62,8 +62,8 @@ return {
             '<leader>x',
             group = '[X] Swap'
         }, {
-            '<leader>p',
-            group = '[P]ersistence'
+            '<leader>.',
+            group = '[.] Sessions'
         }}
     }
 }

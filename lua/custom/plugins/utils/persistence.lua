@@ -14,21 +14,21 @@ return {
         --  end,
         -- })
         -- load the session for the current directory
-        vim.keymap.set('n', '<leader>r.', function()
+        vim.keymap.set('n', '<leader>..', function()
             require('persistence').load()
         end, {
             desc = 'Load session for current directory'
         })
 
         -- select a session to load
-        vim.keymap.set('n', '<leader>rs', function()
+        vim.keymap.set('n', '<leader>.s', function()
             require('persistence').select()
         end, {
             desc = 'Select session to load'
         })
 
         -- stop Persistence => session won't be saved on exit
-        vim.keymap.set('n', '<leader>rx', function()
+        vim.keymap.set('n', '<leader>.x', function()
             require('persistence').stop()
         end, {
             desc = 'Stop Persistence'
