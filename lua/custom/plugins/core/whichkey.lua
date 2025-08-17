@@ -43,9 +43,8 @@ return {
             '<leader>t',
             group = '[T]oggle'
         }, {
-            '<leader>h',
-            group = '[H]unk Git',
-            mode = {'n', 'v'}
+            '<leader>g',
+            group = '[G]it'
         }, {
             '<leader>d',
             group = '[D]iagnostics'
@@ -56,8 +55,11 @@ return {
             '<leader>m',
             group = '[M]olten'
         }, {
-            '<leader>d',
-            group = '[D]adbod'
+            '<leader>l',
+            group = '[L]sp'
+        }, {
+            '<leader>q',
+            group = '[Q] Dadbod SQL'
         }, {
             '<leader>x',
             group = '[X] Swap'

@@ -23,13 +23,14 @@ return {{'NMAC427/guess-indent.nvim'}, {
             return '%2l:%-2v'
         end
     end
-}, -- {
---   'folke/todo-comments.nvim',
---   event = 'VimEnter',
---   dependencies = { 'nvim-lua/plenary.nvim' },
---   opts = { signs = false },
--- },
-{
+}, {
+    'folke/todo-comments.nvim',
+    event = 'VimEnter',
+    dependencies = {'nvim-lua/plenary.nvim'},
+    opts = {
+        signs = false
+    }
+}, {
     'MeanderingProgrammer/render-markdown.nvim',
     dependencies = {'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim'}, -- if you use the mini.nvim suite
     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins

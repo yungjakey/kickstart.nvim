@@ -1,63 +1,138 @@
-return {
-  'NeogitOrg/neogit',
-  dependencies = {
-    'nvim-lua/plenary.nvim', -- required
-    'sindrets/diffview.nvim', -- optional - Diff integration
-    'nvim-telescope/telescope.nvim', -- optional
-  },
-  {
-    'lewis6991/gitsigns.nvim',
+return {{
+    "NeogitOrg/neogit",
+    cmd = "Neogit",
+    dependencies = {"nvim-lua/plenary.nvim"}, -- required by neogit
     opts = {
-      on_attach = function(bufnr)
-        local gitsigns = require 'gitsigns'
-
-        local function map(mode, l, r, opts)
-          opts = opts or {}
-          opts.buffer = bufnr
-          vim.keymap.set(mode, l, r, opts)
-        end
-
-        -- Navigation
-        map('n', ']c', function()
-          if vim.wo.diff then
-            vim.cmd.normal { ']c', bang = true }
-          else
-            gitsigns.nav_hunk 'next'
-          end
-        end, { desc = 'Jump to next git [c]hange' })
-
-        map('n', '[c', function()
-          if vim.wo.diff then
-            vim.cmd.normal { '[c', bang = true }
-          else
-            gitsigns.nav_hunk 'prev'
-          end
-        end, { desc = 'Jump to previous git [c]hange' })
-
-        -- Actions
-        -- visual mode
-        map('v', '<leader>hs', function()
-          gitsigns.stage_hunk { vim.fn.line '.', vim.fn.line 'v' }
-        end, { desc = 'git [s]tage hunk' })
-        map('v', '<leader>hr', function()
-          gitsigns.reset_hunk { vim.fn.line '.', vim.fn.line 'v' }
-        end, { desc = 'git [r]eset hunk' })
-        -- normal mode
-        map('n', '<leader>hs', gitsigns.stage_hunk, { desc = 'git [s]tage hunk' })
-        map('n', '<leader>hr', gitsigns.reset_hunk, { desc = 'git [r]eset hunk' })
-        map('n', '<leader>hS', gitsigns.stage_buffer, { desc = 'git [S]tage buffer' })
-        map('n', '<leader>hu', gitsigns.stage_hunk, { desc = 'git [u]ndo stage hunk' })
-        map('n', '<leader>hR', gitsigns.reset_buffer, { desc = 'git [R]eset buffer' })
-        map('n', '<leader>hp', gitsigns.preview_hunk, { desc = 'git [p]review hunk' })
-        map('n', '<leader>hb', gitsigns.blame_line, { desc = 'git [b]lame line' })
-        map('n', '<leader>hd', gitsigns.diffthis, { desc = 'git [d]iff against index' })
-        map('n', '<leader>hD', function()
-          gitsigns.diffthis '@'
-        end, { desc = 'git [D]iff against last commit' })
-        -- Toggles
-        map('n', '<leader>tb', gitsigns.toggle_current_line_blame, { desc = '[T]oggle git show [b]lame line' })
-        map('n', '<leader>tD', gitsigns.preview_hunk_inline, { desc = '[T]oggle git show [D]eleted' })
-      end,
+        -- keep defaults minimal; tweak later if you want
+        disable_hint = false
+        -- you can adjust popup/display kinds here if you prefer
+        -- e.g. popup = { kind = "split" },
     },
-  },
-}
+    keys = {{
+        "<leader>gg",
+        function()
+            require("neogit").open({
+                kind = "split"
+            })
+        end,
+        desc = "Git: Neogit status (split)"
+    }, {
+        "<leader>gC",
+        function()
+            require("neogit").open({"commit"})
+        end,
+        desc = "Git: Commit popup"
+    }, {
+        "<leader>gl",
+        function()
+            require("neogit").open({"log"})
+        end,
+        desc = "Git: Log popup"
+    }, {
+        "<leader>gP",
+        function()
+            require("neogit").open({"push"})
+        end,
+        desc = "Git: Push popup"
+    }, {
+        "<leader>gF",
+        function()
+            require("neogit").open({"fetch"})
+        end,
+        desc = "Git: Fetch popup"
+    }, {
+        "<leader>gB",
+        function()
+            require("neogit").open({"branch"})
+        end,
+        desc = "Git: Branch popup"
+    }}
+}, -- 2) Gitsigns: per-buffer hunks, blame, diff
+{
+    "lewis6991/gitsigns.nvim",
+    event = {"BufReadPre", "BufNewFile"},
+    opts = {
+        signs = {
+            add = {
+                text = "┃"
+            },
+            change = {
+                text = "┃"
+            },
+            delete = {
+                text = "_"
+            },
+            topdelete = {
+                text = "‾"
+            },
+            changedelete = {
+                text = "~"
+            },
+            untracked = {
+                text = "┆"
+            }
+        },
+        signs_staged_enable = true,
+        current_line_blame = false -- toggle via <leader>gB
+        -- word_diff = true,        -- enable if you like intra-line diff
+    },
+    keys = { -- Hunks
+    {
+        "<leader>gs",
+        function()
+            require("gitsigns").stage_hunk()
+        end,
+        desc = "Git: stage hunk"
+    }, {
+        "<leader>gr",
+        function()
+            require("gitsigns").reset_hunk()
+        end,
+        desc = "Git: reset hunk"
+    }, {
+        "<leader>gS",
+        function()
+            require("gitsigns").stage_buffer()
+        end,
+        desc = "Git: stage buffer"
+    }, {
+        "<leader>gR",
+        function()
+            require("gitsigns").reset_buffer()
+        end,
+        desc = "Git: reset buffer"
+    }, {
+        "<leader>gp",
+        function()
+            require("gitsigns").preview_hunk()
+        end,
+        desc = "Git: preview hunk"
+    }, -- Blame / Diff
+    {
+        "<leader>gb",
+        function()
+            require("gitsigns").blame_line({
+                full = true
+            })
+        end,
+        desc = "Git: blame line (popup)"
+    }, {
+        "<leader>gB",
+        function()
+            require("gitsigns").toggle_current_line_blame()
+        end,
+        desc = "Git: toggle inline blame"
+    }, {
+        "<leader>gd",
+        function()
+            require("gitsigns").diffthis()
+        end,
+        desc = "Git: diff vs index"
+    }, {
+        "<leader>gD",
+        function()
+            require("gitsigns").diffthis("~")
+        end,
+        desc = "Git: diff vs ~"
+    }}
+}}

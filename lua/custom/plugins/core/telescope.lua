@@ -63,7 +63,7 @@ return {
             desc = '[S]earch [S]elect Telescope'
         })
         vim.keymap.set('n', '<leader>sw', builtin.grep_string, {
-            desc = '[S]earch current [W]ord'
+            desc = '[S]earch [W]ord'
         })
         vim.keymap.set('n', '<leader>sg', builtin.live_grep, {
             desc = '[S]earch [G]rep'
