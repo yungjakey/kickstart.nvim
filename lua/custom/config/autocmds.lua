@@ -12,18 +12,19 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+-- indents
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'lua',
   callback = function()
     vim.opt_local.expandtab = true
-    vim.opt_local.shiftwidth = 4
-    vim.opt_local.tabstop = 4
-    vim.opt_local.softtabstop = 4
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.tabstop = 2
+    vim.opt_local.softtabstop = 2
   end,
 })
 
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'sh', 'bash', },
+  pattern = { 'zsh', 'sh', 'bash' },
   callback = function()
     vim.opt_local.expandtab = true
     vim.opt_local.shiftwidth = 4
@@ -32,6 +33,16 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'toml' },
+  callback = function()
+    vim.opt_local.expandtab = true
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.tabstop = 4
+    vim.opt_local.softtabstop = 4
+  end,
+})
+-- wezterm
 vim.api.nvim_create_autocmd({ 'BufEnter' }, {
   callback = function(event)
     local title = 'vim'
@@ -58,11 +69,12 @@ vim.api.nvim_create_autocmd('BufEnter', {
 
     -- Check if buffer meets criteria for the 'q' keymap
     if
-      not vim.bo[ctx.buf].modifiable or vim.bo[ctx.buf].buftype == 'nofile'
+      not vim.bo[ctx.buf].modifiable
+      or vim.bo[ctx.buf].buftype == 'nofile'
       -- Add more conditions here if needed:
       or vim.bo[ctx.buf].buftype == 'help'
       or vim.bo[ctx.buf].buftype == 'quickfix'
-      or vim.tbl_contains({'help', 'qf', 'man'}, vim.bo[ctx.buf].filetype)
+      or vim.tbl_contains({ 'help', 'qf', 'man' }, vim.bo[ctx.buf].filetype)
     then
       -- Create buffer-local keymap for 'q'
       vim.keymap.set('n', 'q', function()

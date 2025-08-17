@@ -1,138 +1,155 @@
-return {{
-    "NeogitOrg/neogit",
-    cmd = "Neogit",
-    dependencies = {"nvim-lua/plenary.nvim"}, -- required by neogit
+return {
+  {
+    'NeogitOrg/neogit',
+    cmd = 'Neogit',
+    dependencies = { 'nvim-lua/plenary.nvim' }, -- required by neogit
     opts = {
-        -- keep defaults minimal; tweak later if you want
-        disable_hint = false
-        -- you can adjust popup/display kinds here if you prefer
-        -- e.g. popup = { kind = "split" },
+      -- keep defaults minimal; tweak later if you want
+      disable_hint = false,
+      -- you can adjust popup/display kinds here if you prefer
+      -- e.g. popup = { kind = "split" },
     },
-    keys = {{
-        "<leader>gg",
+    keys = {
+      {
+        '<leader>gg',
         function()
-            require("neogit").open({
-                kind = "split"
-            })
+          require('neogit').open {
+            kind = 'split',
+          }
         end,
-        desc = "Git: Neogit status (split)"
-    }, {
-        "<leader>gC",
+        desc = 'Git: Neogit status (split)',
+      },
+      {
+        '<leader>gC',
         function()
-            require("neogit").open({"commit"})
+          require('neogit').open { 'commit' }
         end,
-        desc = "Git: Commit popup"
-    }, {
-        "<leader>gl",
+        desc = 'Git: Commit popup',
+      },
+      {
+        '<leader>gl',
         function()
-            require("neogit").open({"log"})
+          require('neogit').open { 'log' }
         end,
-        desc = "Git: Log popup"
-    }, {
-        "<leader>gP",
+        desc = 'Git: Log popup',
+      },
+      {
+        '<leader>gP',
         function()
-            require("neogit").open({"push"})
+          require('neogit').open { 'push' }
         end,
-        desc = "Git: Push popup"
-    }, {
-        "<leader>gF",
+        desc = 'Git: Push popup',
+      },
+      {
+        '<leader>gF',
         function()
-            require("neogit").open({"fetch"})
+          require('neogit').open { 'fetch' }
         end,
-        desc = "Git: Fetch popup"
-    }, {
-        "<leader>gB",
+        desc = 'Git: Fetch popup',
+      },
+      {
+        '<leader>gB',
         function()
-            require("neogit").open({"branch"})
+          require('neogit').open { 'branch' }
         end,
-        desc = "Git: Branch popup"
-    }}
-}, -- 2) Gitsigns: per-buffer hunks, blame, diff
-{
-    "lewis6991/gitsigns.nvim",
-    event = {"BufReadPre", "BufNewFile"},
+        desc = 'Git: Branch popup',
+      },
+    },
+  }, -- 2) Gitsigns: per-buffer hunks, blame, diff
+  {
+    'lewis6991/gitsigns.nvim',
+    event = { 'BufReadPre', 'BufNewFile' },
     opts = {
-        signs = {
-            add = {
-                text = "┃"
-            },
-            change = {
-                text = "┃"
-            },
-            delete = {
-                text = "_"
-            },
-            topdelete = {
-                text = "‾"
-            },
-            changedelete = {
-                text = "~"
-            },
-            untracked = {
-                text = "┆"
-            }
+      signs = {
+        add = {
+          text = '┃',
         },
-        signs_staged_enable = true,
-        current_line_blame = false -- toggle via <leader>gB
-        -- word_diff = true,        -- enable if you like intra-line diff
+        change = {
+          text = '┃',
+        },
+        delete = {
+          text = '_',
+        },
+        topdelete = {
+          text = '‾',
+        },
+        changedelete = {
+          text = '~',
+        },
+        untracked = {
+          text = '┆',
+        },
+      },
+      signs_staged_enable = true,
+      current_line_blame = false, -- toggle via <leader>gB
+      -- word_diff = true,        -- enable if you like intra-line diff
     },
     keys = { -- Hunks
-    {
-        "<leader>gs",
+      {
+        '<leader>gs',
         function()
-            require("gitsigns").stage_hunk()
+          require('gitsigns').stage_hunk()
         end,
-        desc = "Git: stage hunk"
-    }, {
-        "<leader>gr",
+        desc = 'Git: stage hunk',
+      },
+      {
+        '<leader>gr',
         function()
-            require("gitsigns").reset_hunk()
+          require('gitsigns').reset_hunk()
         end,
-        desc = "Git: reset hunk"
-    }, {
-        "<leader>gS",
+        desc = 'Git: reset hunk',
+      },
+      {
+        '<leader>gS',
         function()
-            require("gitsigns").stage_buffer()
+          require('gitsigns').stage_buffer()
         end,
-        desc = "Git: stage buffer"
-    }, {
-        "<leader>gR",
+        desc = 'Git: stage buffer',
+      },
+      {
+        '<leader>gR',
         function()
-            require("gitsigns").reset_buffer()
+          require('gitsigns').reset_buffer()
         end,
-        desc = "Git: reset buffer"
-    }, {
-        "<leader>gp",
+        desc = 'Git: reset buffer',
+      },
+      {
+        '<leader>gp',
         function()
-            require("gitsigns").preview_hunk()
+          require('gitsigns').preview_hunk()
         end,
-        desc = "Git: preview hunk"
-    }, -- Blame / Diff
-    {
-        "<leader>gb",
+        desc = 'Git: preview hunk',
+      }, -- Blame / Diff
+      {
+        '<leader>gb',
         function()
-            require("gitsigns").blame_line({
-                full = true
-            })
+          require('gitsigns').blame_line {
+            full = true,
+          }
         end,
-        desc = "Git: blame line (popup)"
-    }, {
-        "<leader>gB",
+        desc = 'Git: blame line (popup)',
+      },
+      {
+        '<leader>gB',
         function()
-            require("gitsigns").toggle_current_line_blame()
+          require('gitsigns').toggle_current_line_blame()
         end,
-        desc = "Git: toggle inline blame"
-    }, {
-        "<leader>gd",
+        desc = 'Git: toggle inline blame',
+      },
+      {
+        '<leader>gd',
         function()
-            require("gitsigns").diffthis()
+          require('gitsigns').diffthis()
         end,
-        desc = "Git: diff vs index"
-    }, {
-        "<leader>gD",
+        desc = 'Git: diff vs index',
+      },
+      {
+        '<leader>gD',
         function()
-            require("gitsigns").diffthis("~")
+          require('gitsigns').diffthis '~'
         end,
-        desc = "Git: diff vs ~"
-    }}
-}}
+        desc = 'Git: diff vs ~',
+      },
+    },
+  },
+}

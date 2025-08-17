@@ -7,7 +7,7 @@ return {
       local lint = require 'lint'
       lint.linters_by_ft = {
         -- programming languages
-        -- python = { 'ruff' }, -- handled by lsp
+        -- python = { 'Ruff' }, -- handled by lsp
         go = { 'golangcilint' },
         bash = { 'shellcheck' },
         sh = { 'shellcheck' },

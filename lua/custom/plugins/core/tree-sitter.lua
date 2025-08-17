@@ -13,6 +13,7 @@ return {
         'python',
         'json',
         'yaml',
+        'toml',
         'dockerfile',
         'terraform',
         'make',
