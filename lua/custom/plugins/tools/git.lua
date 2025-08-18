@@ -20,7 +20,7 @@ return {
         desc = 'Git: Neogit status (split)',
       },
       {
-        '<leader>gC',
+        '<leader>gc',
         function()
           require('neogit').open { 'commit' }
         end,
@@ -48,7 +48,7 @@ return {
         desc = 'Git: Fetch popup',
       },
       {
-        '<leader>gB',
+        '<leader>gb',
         function()
           require('neogit').open { 'branch' }
         end,
@@ -121,7 +121,7 @@ return {
         desc = 'Git: preview hunk',
       }, -- Blame / Diff
       {
-        '<leader>gb',
+        '<leader>gx',
         function()
           require('gitsigns').blame_line {
             full = true,
@@ -130,7 +130,7 @@ return {
         desc = 'Git: blame line (popup)',
       },
       {
-        '<leader>gB',
+        '<leader>gX',
         function()
           require('gitsigns').toggle_current_line_blame()
         end,

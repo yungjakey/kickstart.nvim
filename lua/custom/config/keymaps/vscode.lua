@@ -10,12 +10,6 @@ vim.g.maplocalleader = ' '
 keymap('v', '<', '<gv', opts)
 keymap('v', '>', '>gv', opts)
 
--- move text up and down
--- keymap('v', 'J', ':m .+1<CR>==', opts)
--- keymap('v', 'K', ':m .-2<CR>==', opts)
--- keymap('x', 'J', ":move '>+1<CR>gv-gv", opts)
--- keymap('x', 'K', ":move '<-2<CR>gv-gv", opts)
-
 -- paste preserves primal yanked piece
 keymap('v', 'p', '"_dP', opts)
 
@@ -55,7 +49,7 @@ keymap({ 'n', 'v' }, '<leader>po', "<cmd>lua require('vscode').action('projectMa
 keymap({ 'n', 'v' }, '<leader>pe', "<cmd>lua require('vscode').action('projectManager.editProjects')<CR>")
 
 local functions = require 'custom.config.functions'
-vim.keymap.set('n', '<leader>yn', function()
+keymap('n', '<leader>yn', function()
   functions.new_from_yank { vscode_untitled = true }
 end, { desc = 'New Untitled (VSCode) from last yank' })
-vim.keymap.set('n', '<leader>yN', functions.new_named_from_yank, { desc = 'New *named* file from last yank' })
+keymap('n', '<leader>yN', functions.new_named_from_yank, { desc = 'New *named* file from last yank' })

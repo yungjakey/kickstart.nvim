@@ -8,21 +8,31 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.keymap.set('i', '<M-BS>', '<C-w>')
 vim.keymap.set('i', '<M-Del>', '<cmd>norm! dw<CR>')
 
+-- misc
 vim.keymap.set('n', '<leader>~', vim.api.nvim_buf_get_name(0), {
-  desc = 'Get filepath',
+    desc = 'Get filepath'
 })
-
+vim.keymap.set('n', '<leader><leader>', vim.diagnostic.open_float, {
+    desc = 'Current line diagnostics'
+})
+vim.keymap.set('n', '<leader>dy', function()
+    vim.fn.setreg("+", vim.diagnostic.get(0, {
+        lnum = vim.fn.line(".") - 1
+    })[1].message)
+end, {
+    desc = 'Yank diagnostic message'
+})
 -- select all
 vim.keymap.set('n', '<C-a>', 'gg<S-v>G', {
-  desc = 'Select all',
+    desc = 'Select all'
 })
 
 -- opencode
 vim.keymap.set('n', '<leader>oc', ':vsplit | term opencode<CR>', {
-  desc = 'Open code in right split',
+    desc = 'Open code in right split'
 })
 vim.keymap.set('n', '<leader>oC', ':hsplit | term opencode<CR>', {
-  desc = 'Open code in right split',
+    desc = 'Open code in right split'
 })
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -31,35 +41,35 @@ vim.keymap.set('n', '<leader>oC', ':hsplit | term opencode<CR>', {
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', {
-  desc = 'Exit terminal mode',
+    desc = 'Exit terminal mode'
 })
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
 --
 --  See `:help wincmd` for a list of all window commands
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', {
-  desc = 'Move focus to the left window',
+    desc = 'Move focus to the left window'
 })
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', {
-  desc = 'Move focus to the right window',
+    desc = 'Move focus to the right window'
 })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', {
-  desc = 'Move focus to the lower window',
+    desc = 'Move focus to the lower window'
 })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', {
-  desc = 'Move focus to the upper window',
+    desc = 'Move focus to the upper window'
 })
 
 -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
 vim.keymap.set('n', '<C-S-h>', '<C-w>H', {
-  desc = 'Move window to the left',
+    desc = 'Move window to the left'
 })
 vim.keymap.set('n', '<C-S-l>', '<C-w>L', {
-  desc = 'Move window to the right',
+    desc = 'Move window to the right'
 })
 vim.keymap.set('n', '<C-S-j>', '<C-w>J', {
-  desc = 'Move window to the lower',
+    desc = 'Move window to the lower'
 })
 vim.keymap.set('n', '<C-S-k>', '<C-w>K', {
-  desc = 'Move window to the upper',
+    desc = 'Move window to the upper'
 })
