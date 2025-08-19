@@ -1,5 +1,8 @@
 return {
     'zsh-sage/wezterm-send.nvim',
+    cond = function()
+        return vim.fn.executable('wezterm') == 1
+    end,
     dependencies = {
         'willothy/wezterm.nvim',
         config = true
@@ -40,5 +43,4 @@ return {
             end
         })
     end
-
 }
