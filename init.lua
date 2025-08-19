@@ -131,16 +131,20 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- lazy
-local plugins = {}
+local plugins = {"custom.config.theme"}
 
 if not os.getenv("VIM_SKIP_PLUGS") then
-    plugins = {{
+    local additional_plugins = {{
         import = 'custom.plugins.core'
     }, {
         import = 'custom.plugins.tools'
     }, {
         import = 'custom.plugins.utils'
     }}
+
+    for _, plugin in ipairs(additional_plugins) do
+        table.insert(plugins, plugin)
+    end
 end
 local opts = {
     performance = {
