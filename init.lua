@@ -56,7 +56,10 @@ vim.o.showmode = false
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
 vim.schedule(function()
-    vim.o.clipboard = 'unnamedplus'
+    if vim.fn.has('clipboard') == 1 and
+        (vim.fn.executable('pbcopy') == 1 or vim.fn.executable('xclip') == 1 or vim.fn.executable('wl-copy') == 1) then
+        vim.o.clipboard = 'unnamedplus'
+    end
 end)
 
 -- Enable break indent
@@ -130,24 +133,6 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
--- lazy
-local plugins = {{
-    import = 'custom.config.theme'
-}}
-
-if not os.getenv("VIM_SKIP_PLUGS") then
-    local additional_plugins = {{
-        import = 'custom.plugins.core'
-    }, {
-        import = 'custom.plugins.tools'
-    }, {
-        import = 'custom.plugins.utils'
-    }}
-
-    for _, plugin in ipairs(additional_plugins) do
-        table.insert(plugins, plugin)
-    end
-end
 local opts = {
     performance = {
         rtp = {
@@ -172,6 +157,24 @@ local opts = {
         }
     }
 }
+
+local plugins = {{
+    import = 'custom.config.theme'
+}}
+
+if not os.getenv("VIM_SKIP_PLUGS") then
+    local additional_plugins = {{
+        import = 'custom.plugins.core'
+    }, {
+        import = 'custom.plugins.tools'
+    }, {
+        import = 'custom.plugins.utils'
+    }}
+
+    for _, plugin in ipairs(additional_plugins) do
+        table.insert(plugins, plugin)
+    end
+end
 -- [[ Configure and install plugins ]]
 require('lazy').setup(plugins, opts)
 require 'custom.config.autocmds'
