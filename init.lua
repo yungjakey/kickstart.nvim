@@ -56,10 +56,7 @@ vim.o.showmode = false
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
 vim.schedule(function()
-    if vim.fn.has('clipboard') == 1 and
-        (vim.fn.executable('pbcopy') == 1 or vim.fn.executable('xclip') == 1 or vim.fn.executable('wl-copy') == 1) then
-        vim.o.clipboard = 'unnamedplus'
-    end
+    vim.o.clipboard = 'unnamedplus'
 end)
 
 -- Enable break indent
