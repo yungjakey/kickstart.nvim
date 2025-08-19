@@ -24,14 +24,12 @@ If you experience any errors while trying to install kickstart, run `:checkhealt
 I hope you enjoy your Neovim journey,
 - TJ
 
--- [[ Setting options ]]
--- See `:help vim.o`
+-- [[ Setting options ]] -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
-
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
@@ -39,7 +37,7 @@ vim.g.maplocalleader = ' '
 vim.g.have_nerd_font = true
 
 -- Ignore copilot
-vim.g.root_lsp_ignore = { 'copilot' }
+vim.g.root_lsp_ignore = {'copilot'}
 
 -- Make line numbers default
 vim.o.number = true
@@ -58,7 +56,7 @@ vim.o.showmode = false
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
 vim.schedule(function()
-  vim.o.clipboard = 'unnamedplus'
+    vim.o.clipboard = 'unnamedplus'
 end)
 
 -- Enable break indent
@@ -93,7 +91,11 @@ vim.o.splitbelow = true
 --   See `:help lua-options`
 --   and `:help lua-options-guide`
 vim.o.list = true
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+vim.opt.listchars = {
+    tab = '» ',
+    trail = '·',
+    nbsp = '␣'
+}
 
 -- Preview substitutions live, as you type!
 vim.o.inccommand = 'split'
@@ -119,52 +121,57 @@ vim.opt.whichwrap:append ']'
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
-  local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
-  local out = vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
-  if vim.v.shell_error ~= 0 then
-    error('Error cloning lazy.nvim:\n' .. out)
-  end
+    local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
+    local out = vim.fn.system {'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath}
+    if vim.v.shell_error ~= 0 then
+        error('Error cloning lazy.nvim:\n' .. out)
+    end
 end
 
 vim.opt.rtp:prepend(lazypath)
--- plugins
-local plugins = {
-  { import = 'custom.plugins.core' },
-  { import = 'custom.plugins.tools' },
-  { import = 'custom.plugins.utils' },
-}
+
+-- lazy
+local plugins = {}
+
+if not os.getenv("VIM_SKIP_PLUGS") then
+    plugins = {{
+        import = 'custom.plugins.core'
+    }, {
+        import = 'custom.plugins.tools'
+    }, {
+        import = 'custom.plugins.utils'
+    }}
+end
 local opts = {
-  performance = {
-    rtp = {
-      disabled_plugins = {
-        'gzip',
-      },
+    performance = {
+        rtp = {
+            disabled_plugins = {'gzip'}
+        }
     },
-  },
-  ui = {
-    icons = vim.g.have_nerd_font and {} or {
-      cmd = '⌘',
-      config = '🛠',
-      event = '📅',
-      ft = '📂',
-      init = '⚙',
-      keys = '🗝',
-      plugin = '🔌',
-      runtime = '💻',
-      require = '🌙',
-      source = '📄',
-      start = '🚀',
-      task = '📌',
-      lazy = '💤 ',
-    },
-  },
+    ui = {
+        icons = vim.g.have_nerd_font and {} or {
+            cmd = '⌘',
+            config = '🛠',
+            event = '📅',
+            ft = '📂',
+            init = '⚙',
+            keys = '🗝',
+            plugin = '🔌',
+            runtime = '💻',
+            require = '🌙',
+            source = '📄',
+            start = '🚀',
+            task = '📌',
+            lazy = '💤 '
+        }
+    }
 }
 -- [[ Configure and install plugins ]]
 require('lazy').setup(plugins, opts)
 require 'custom.config.autocmds'
 require 'custom.config.filetypes'
 if vim.g.vscode then
-  require 'custom.config.keymaps.vscode'
+    require 'custom.config.keymaps.vscode'
 else
-  require 'custom.config.keymaps.nvim'
+    require 'custom.config.keymaps.nvim'
 end
