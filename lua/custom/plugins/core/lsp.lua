@@ -225,13 +225,6 @@ return {
               globPattern = vim.env.GLOB_PATTERN or '*@(.sh|.inc|.bash|.zsh|.command|.env)',
             },
           },
-          root_dir = function(fname)
-            return vim.fs.dirname(vim.fs.find('.git', {
-              path = fname,
-              upward = true,
-            })[1])
-          end,
-          single_file_support = true,
         },
 
         -- Lua Language Server - minimal config, let lazydev handle the rest

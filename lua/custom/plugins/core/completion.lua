@@ -45,6 +45,8 @@ return {
         keymap = { preset = 'inherit' },
         completion = { menu = { auto_show = true } },
       },
+      signature = { enabled = true },
+
       appearance = {
         nerd_font_variant = 'mono',
         kind_icons = {
@@ -93,7 +95,6 @@ return {
           direction_priority = { 'n', 's' },
           scrollbar = false,
         },
-        signature = { enabled = true },
       },
       sources = {
         default = { 'lsp', 'path', 'lazydev', 'snippets', 'buffer', 'copilot' },
@@ -115,7 +116,7 @@ return {
           ['copilot'] = {
             name = 'copilot',
             module = 'blink-cmp-copilot',
-            score_offset = 100,
+            score_offset = 90,
             async = true,
             transform_items = function(_, items)
               local CompletionItemKind = require('blink.cmp.types').CompletionItemKind
