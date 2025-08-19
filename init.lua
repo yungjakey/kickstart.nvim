@@ -131,7 +131,9 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- lazy
-local plugins = {"custom.config.theme"}
+local plugins = {{
+    import = 'custom.plugins.theme'
+}}
 
 if not os.getenv("VIM_SKIP_PLUGS") then
     local additional_plugins = {{
