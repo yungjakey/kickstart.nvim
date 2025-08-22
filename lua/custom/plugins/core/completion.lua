@@ -35,6 +35,7 @@ return {
         opts = {},
       },
       'folke/lazydev.nvim',
+      'justingsgithub/wezterm-types',
       'rafamadriz/friendly-snippets',
     },
     opts = {
@@ -111,7 +112,7 @@ return {
           ['vim-dadbod-completion'] = {
             name = 'Dadbod',
             module = 'vim_dadbod_completion.blink',
-            score_offset = 110,
+            score_offset = 100,
           },
           ['copilot'] = {
             name = 'copilot',

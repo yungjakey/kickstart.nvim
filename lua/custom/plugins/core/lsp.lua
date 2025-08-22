@@ -4,23 +4,24 @@ return {
   {
     'folke/lazydev.nvim',
     ft = 'lua',
-    dependencies = {
-      {
-        'justinsgithub/wezterm-types',
-        lazy = true,
-      },
-    },
+    dependencies = { {
+      'justinsgithub/wezterm-types',
+      lazy = true,
+    } },
     opts = {
-      library = {
-        -- Load luvit types when the `vim.uv` word is found
-        { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
-
-        -- Load the wezterm types when the `wezterm` module is required
-        { path = 'wezterm-types', mods = { 'wezterm' } },
-
-        -- Load Hammerspoon EmmyLua annotations when `hs` is found
-        { path = '~/.config/hammerspoon/Spoons/EmmyLua.spoon/annotations', words = { 'hs' } },
-
+      library = { -- Load luvit types when the `vim.uv` word is found
+        {
+          path = '${3rd}/luv/library',
+          words = { 'vim%.uv' },
+        }, -- Load the wezterm types when the `wezterm` module is required
+        {
+          path = 'wezterm-types',
+          mods = { 'wezterm' },
+        }, -- Load Hammerspoon EmmyLua annotations when `hs` is found
+        {
+          path = '~/.config/hammerspoon/Spoons/EmmyLua.spoon/annotations',
+          words = { 'hs' },
+        },
         'LazyVim',
       },
     },
@@ -171,6 +172,7 @@ return {
       -- Enable the following language servers
       local servers = {
         gopls = {
+          filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
           settings = {
             gopls = {
               analyses = {
@@ -186,7 +188,7 @@ return {
 
         -- Python
         pyright = {
-          filetypes = { 'python' },
+          filetypes = { 'python', 'py' },
           root_dir = require('lspconfig.util').root_pattern('pyproject.toml', 'setup.cfg', 'setup.py', 'requirements.txt', '.git'),
           settings = {
             python = {
@@ -219,16 +221,17 @@ return {
 
         -- Shell/Bash
         bashls = {
-          filetypes = { 'sh', 'bash', 'zsh', 'env' },
+          filetypes = { 'sh', 'bash', 'env' },
           settings = {
             bashIde = {
-              globPattern = vim.env.GLOB_PATTERN or '*@(.sh|.inc|.bash|.zsh|.command|.env)',
+              globPattern = vim.env.GLOB_PATTERN or '*@(.sh|.inc|.bash|.command|.env)',
             },
           },
         },
 
         -- Lua Language Server - minimal config, let lazydev handle the rest
         lua_ls = {
+          filetypes = 'lua',
           settings = {
             Lua = {
               runtime = {
@@ -246,6 +249,7 @@ return {
 
         -- JSON
         jsonls = {
+          filetypes = { 'json', 'jsonc', 'json5' },
           settings = {
             schemaStore = {
               enable = false,
@@ -322,8 +326,7 @@ return {
 
       -- Ensure the servers and tools above are installed
       local ensure_installed = vim.tbl_keys(servers or {})
-      vim.list_extend(ensure_installed, {
-        -- Formatters & Fixers
+      vim.list_extend(ensure_installed, { -- Formatters & Fixers
         'ruff',
         'goimports',
         'shfmt',
@@ -332,8 +335,7 @@ return {
         'fixjson',
         'yamlfix',
         'sqlfmt',
-        'djlint',
-        -- Linters
+        'djlint', -- Linters
         'golangci-lint',
         'shellcheck',
         'luacheck',
@@ -343,8 +345,7 @@ return {
         'tflint',
         'hadolint',
         'actionlint',
-        'sqlfluff',
-        -- LSP servers
+        'sqlfluff', -- LSP servers
         'gopls',
         'bash-language-server',
         'lua-language-server',
