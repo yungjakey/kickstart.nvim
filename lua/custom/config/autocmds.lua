@@ -44,6 +44,16 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'gitignore',
+  callback = function()
+    -- treat '!', '*', '?' as separators, so "./", "dir/" etc. trigger path
+    vim.opt_local.isfname:remove '!'
+    vim.opt_local.isfname:remove '*'
+    vim.opt_local.isfname:remove '?'
+  end,
+})
+
 -- Set up the autocommand to create the keymap for specific buffer types
 vim.api.nvim_create_autocmd('BufEnter', {
   group = vim.api.nvim_create_augroup('BufferKeymaps', {
